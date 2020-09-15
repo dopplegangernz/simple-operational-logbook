@@ -11,14 +11,16 @@ class User(db.Model):
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(255), unique=True, nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
-    admin = db.Column(db.Boolean, nullable=False, default=False)
     public_id = db.Column(db.String(100), unique=True)
+
+    admin = db.Column(db.Boolean, nullable=False, default=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
     username = db.Column(db.String(50), unique=True)
     password_hash = db.Column(db.String(100))
-    group_name = db.Column(db.String(50), db.ForeignKey(
-        'group.name'), nullable=False)
+
+    group_id = db.Column(db.Integer, db.ForeignKey(
+        'group.id'), nullable=False)
     group = db.relationship("Group")
 
     @property

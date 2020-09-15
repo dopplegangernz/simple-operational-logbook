@@ -7,7 +7,7 @@ class UserDto:
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, description='user password'),
-        'group_name': fields.String(required=True, description='Name of user\'s group'),
+        'group_id': fields.String(attribute='group.public_id', required=True, description='id of user\'s group'),
         'public_id': fields.String(description='user Identifier')
     })
 
@@ -17,7 +17,19 @@ class GroupDto:
     group = api.model('group', {
         'name': fields.String(required=True, description='group name'),
         'description': fields.String(required=False, description='Description of the group'),
-        'public_id': fields.String(description='group Identifier')
+        'id': fields.String(attribute='public_id', description='group Identifier')
+    })
+
+
+class LogEntryDto:
+    api = Namespace('logEntry', description='log entry related operations')
+    log_entry = api.model('logEntry', {
+        'id': fields.String(attribute='public_id', description='entry Identifier'),
+        'subject': fields.String(required=True, description='The subject of the log entry'),
+        'text': fields.String(required=True, description='The content of the entry'),
+        'timeStamp': fields.DateTime(description='when the entry was created'),
+        'author_id': fields.String(attribute='author.public_id', required=True, description='the user id of the persono who creted the entry'),
+        'group_id': fields.String(attribute='group.public_id', required=True, description='id of group the entry is relevant to'),
     })
 
 

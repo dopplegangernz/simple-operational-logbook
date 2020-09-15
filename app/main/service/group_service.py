@@ -17,13 +17,15 @@ def save_new_group(data):
 
         response_object = {
             'status': 'success',
-            'message': 'Successfully registered.'
+            'message': 'Successfully registered.',
+            'id': new_group.public_id
         }
         return response_object, 201
     else:
         response_object = {
             'status': 'fail',
             'message': 'Group already exists.',
+            'id': group.public_id
         }
         return response_object, 409
 

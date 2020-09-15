@@ -18,12 +18,16 @@ def register_group(self):
 
 
 def register_user(self):
+    groupResponse = register_group(self)
+    groupData = json.loads(groupResponse.data.decode())
+    groupId = groupData['id']
+
     return self.client.post(
         '/user/',
         data=json.dumps(dict(
             email='joe@example.com',
             username='username',
-            group_name='testGroup',
+            group_id=groupId,
             password='123456'
         )),
         content_type='application/json'
@@ -36,7 +40,7 @@ def register_user_with_bad_group(self):
         data=json.dumps(dict(
             email='joe@example.com',
             username='username',
-            group_name='nonexistentgroup',
+            group_id='nonexistentgroup',
             password='123456'
         )),
         content_type='application/json'
@@ -67,7 +71,6 @@ class TestAuthBlueprint(BaseTestCase):
     def test_user_registration(self):
         """ Test for user registration """
         with self.client:
-            register_group(self)
             response = register_user(self)
             data = json.loads(response.data.decode())
             self.assertIn("status", data, msg="response is : %s" % response)
@@ -79,20 +82,21 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_user_registration_with_nonexistent_group(self):
         """ Test for user registration """
+        # This should be failing, but is succeeding, as sqllite3 doesn't enforce foreign key constraints unles you tell it to every time
+        # And I haven't worked out how to do that.
         with self.client:
-            register_group(self)
             response = register_user_with_bad_group(self)
             data = json.loads(response.data.decode())
-            self.assertIn("status", data, msg="response is : %s" % response)
-            self.assertTrue(data['status'] == 'success')
-            self.assertTrue(data['message'] == 'Successfully registered.')
-            self.assertTrue(data['Authorization'])
+            self.assertIn("status", data,
+                          msg="response is : {}".format(data))
+            self.assertTrue(data['status'] == 'fail')
+            self.assertTrue(data['message'] ==
+                            'nonexistentgroup is not a valid group id')
             self.assertTrue(response.content_type == 'application/json')
-            self.assertEqual(response.status_code, 201)
+            self.assertEqual(response.status_code, 409)
 
     def test_registered_with_already_registered_user(self):
         """ Test registration with already registered email"""
-        register_group(self)
         register_user(self)
         with self.client:
             response = register_user(self)
@@ -107,7 +111,6 @@ class TestAuthBlueprint(BaseTestCase):
         """ Test for login of registered-user login """
         with self.client:
             # user registration
-            register_group(self)
             resp_register = register_user(self)
             data_register = json.loads(resp_register.data.decode())
             self.assertTrue(data_register['status'] == 'success',
@@ -144,7 +147,6 @@ class TestAuthBlueprint(BaseTestCase):
         """ Test for logout before token expires """
         with self.client:
             # user registration
-            register_group(self)
             resp_register = register_user(self)
             data_register = json.loads(resp_register.data.decode())
             self.assertTrue(data_register['status'] == 'success')

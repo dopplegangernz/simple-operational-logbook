@@ -14,7 +14,7 @@ class TestUserModel(BaseTestCase):
         user = User(
             email='test@test.com',
             password='test',
-            group_name='testGroup',
+            group_id='testGroup',
             registered_on=datetime.datetime.utcnow()
         )
         db.session.add(user)
@@ -26,7 +26,7 @@ class TestUserModel(BaseTestCase):
         user = User(
             email='test@test.com',
             password='test',
-            group_name='testGroup',
+            group_id='testGroup',
             registered_on=datetime.datetime.utcnow()
         )
         db.session.add(user)

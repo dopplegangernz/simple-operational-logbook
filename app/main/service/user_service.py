@@ -3,17 +3,28 @@ import datetime
 
 from app.main import db
 from app.main.model.user import User
+from app.main.model.group import Group
 
 
 def save_new_user(data):
+    groupPublicId = data['group_id']
+    group = Group.query.filter_by(public_id=groupPublicId).first()
+
     user = User.query.filter_by(email=data['email']).first()
-    if not user:
+
+    if not group:
+        response_object = {
+            'status': 'fail',
+            'message': '{} is not a valid group id'.format(groupPublicId)
+        }
+        return response_object, 409
+    elif not user:
         new_user = User(
             public_id=str(uuid.uuid4()),
             email=data['email'],
             username=data['username'],
             password=data['password'],
-            group_name=data['group_name'],
+            group_id=group.id,
             registered_on=datetime.datetime.utcnow()
         )
         save_changes(new_user)
