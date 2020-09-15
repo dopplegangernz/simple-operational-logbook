@@ -9,6 +9,14 @@ class UserDto:
         'password': fields.String(required=True, description='user password'),
         'public_id': fields.String(description='user Identifier')
     })
+    
+class GroupDto:
+    api = Namespace('group', description='group related operations')
+    group = api.model('group', {
+        'name': fields.String(required=True, description='group name'),
+        'description': fields.String(required=False, description='Description of the group'),
+        'public_id': fields.String(description='group Identifier')
+    })
 
 
 class AuthDto:
