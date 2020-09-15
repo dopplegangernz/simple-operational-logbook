@@ -20,3 +20,9 @@ run:
 	python3 manage.py run
 
 all: clean install tests run
+
+db-init:
+	. rm -rf migrations; \
+	python3 manage.py db init; \
+	python3 manage.py db migrate --message 'initial database migration'; \
+	python3 manage.py db upgrade
