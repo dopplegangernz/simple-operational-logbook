@@ -7,9 +7,11 @@ class UserDto:
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, description='user password'),
+        'group_name': fields.String(required=True, description='Name of user\'s group'),
         'public_id': fields.String(description='user Identifier')
     })
-    
+
+
 class GroupDto:
     api = Namespace('group', description='group related operations')
     group = api.model('group', {

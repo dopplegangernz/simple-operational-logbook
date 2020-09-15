@@ -36,6 +36,10 @@ def get_a_group(public_id):
     return Group.query.filter_by(public_id=public_id).first()
 
 
+def get_a_group_by_name(group_name):
+    return Group.query.filter_by(name=group_name).first()
+
+
 def save_changes(data):
     db.session.add(data)
     db.session.commit()

@@ -13,6 +13,7 @@ def save_new_user(data):
             email=data['email'],
             username=data['username'],
             password=data['password'],
+            group_name=data['group_name'],
             registered_on=datetime.datetime.utcnow()
         )
         save_changes(new_user)
@@ -54,4 +55,3 @@ def generate_token(user):
 def save_changes(data):
     db.session.add(data)
     db.session.commit()
-

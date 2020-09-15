@@ -17,6 +17,9 @@ class User(db.Model):
     public_id = db.Column(db.String(100), unique=True)
     username = db.Column(db.String(50), unique=True)
     password_hash = db.Column(db.String(100))
+    group_name = db.Column(db.String(50), db.ForeignKey(
+        'group.name'), nullable=False)
+    group = db.relationship("Group")
 
     @property
     def password(self):
@@ -24,7 +27,8 @@ class User(db.Model):
 
     @password.setter
     def password(self, password):
-        self.password_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password_hash = flask_bcrypt.generate_password_hash(
+            password).decode('utf-8')
 
     def check_password(self, password):
         return flask_bcrypt.check_password_hash(self.password_hash, password)

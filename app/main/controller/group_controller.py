@@ -1,5 +1,5 @@
 from flask import request
-from flask_restplus import Resource
+from flask_restx import Resource
 
 from ..util.dto import GroupDto
 from ..service.group_service import save_new_group, get_all_groups, get_a_group
