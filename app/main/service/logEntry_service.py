@@ -5,6 +5,7 @@ from app.main import db
 from app.main.model.logEntry import LogEntry
 from app.main.model.user import User
 from app.main.model.group import Group
+import app.main.util.utilFunctions as utilFunctions
 
 
 def save_log_entry(data):
@@ -13,7 +14,7 @@ def save_log_entry(data):
 
     new_entry = LogEntry(
         public_id=str(uuid.uuid4()),
-        timestamp=datetime.datetime.utcnow(),
+        timestamp=datetime.now(datetime.timezone.utc),
         subject=data['subject'],
         author_id=authorId,
         group_id=groupId,
@@ -28,8 +29,16 @@ def save_log_entry(data):
     return response_object, 201
 
 
-def get_entries_by_date(date):
-    return User.query.all()
+def get_entries_for_date(date):
+    dayStart = utilFunctions.startOfLocalDay(date)
+    dayEnd = utilFunctions.endOfLocalDay(date)
+
+    return LogEntry.query.filter(
+        db.and_(
+            LogEntry.timestamp >= dayStart,
+            LogEntry.timestamp <= dayEnd
+        )
+    )
 
 
 def get_entries_by_subject(subject):
