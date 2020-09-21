@@ -3,10 +3,10 @@ from flask import request
 from flask_restx import Resource
 
 from ..util.dto import LogEntryDto
-from ..service.logEntry_service import save_log_entry, get_entries_for_date
+from ..service.logEntry_service import save_log_entry, get_an_entry
 
 from app.main.util.decorator import token_required
-
+import json
 import datetime
 
 api = LogEntryDto.api
@@ -23,7 +23,7 @@ class LogEntryList(Resource):
         """Creates a new LogEntry """
         data = request.json
 
-        data['author_id'] = 1234
+        data['author_id'] = request.userData['user_id']
 
         return save_log_entry(data=data)
 
@@ -35,10 +35,9 @@ class LogEntry(Resource):
     @api.doc('get a logentry')
     @api.marshal_with(_logentry)
     def get(self, public_id):
-        pass
         """get a logentry given its identifier"""
-        # logentry = get_a_logentry(public_id)
-        # if not logentry:
-        #     api.abort(404)
-        # else:
-        #     return logentry
+        logentry = get_an_entry(public_id)
+        if not logentry:
+            api.abort(404)
+        else:
+            return logentry

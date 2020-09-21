@@ -21,7 +21,7 @@ def register_user(self):
         '/user/',
         data=json.dumps(dict(
             email='joe@example.com',
-            username='username',
+            username='test username',
             group_id=groupId,
             password='123456'
         )),
@@ -48,6 +48,21 @@ def login_user(self):
         data=json.dumps(dict(
             email='joe@example.com',
             password='123456'
+        )),
+        content_type='application/json'
+    )
+
+
+def create_log_entry(self, authKey, subject, text):
+    return self.client.post(
+        '/entry/',
+        headers=dict(
+            Authorization=authKey
+        ),
+        data=json.dumps(dict(
+            subject=subject,
+            text=text,
+            group_name="testGroup"
         )),
         content_type='application/json'
     )

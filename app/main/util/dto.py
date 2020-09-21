@@ -28,7 +28,7 @@ class LogEntryDto:
         'subject': fields.String(required=True, description='The subject of the log entry'),
         'text': fields.String(required=True, description='The content of the entry'),
         'timeStamp': fields.DateTime(description='when the entry was created'),
-        'author_id': fields.String(attribute='author.public_id', description='the user id of the persono who creted the entry'),
+        'author_name': fields.String(attribute='author.username', description='the user id of the person who creted the entry'),
         'group_name': fields.String(attribute='group.name', required=True, description='Name of the group the entry is relevant to'),
     })
 
