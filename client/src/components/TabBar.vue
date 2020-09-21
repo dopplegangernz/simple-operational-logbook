@@ -7,8 +7,10 @@
 <script>
 export default {
   name: "TabBar",
-  props: {
-    Groups: Array,
+  computed: {
+    Groups() {
+      return this.$store.state.groups;
+    },
   },
 };
 </script>

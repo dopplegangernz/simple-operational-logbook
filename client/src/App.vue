@@ -24,11 +24,6 @@ export default {
     TabBar,
     UIBar,
   },
-  data: function() {
-    return {
-      groups: ["A tab", "Another tab", "Yet another tab"],
-    };
-  },
 };
 </script>
 

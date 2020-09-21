@@ -24,6 +24,7 @@ const store = new Vuex.Store({
     date: null,
     searchString: null,
     entries: [],
+    groups: ["All", "A tab", "Another tab", "Yet another tab"],
   },
   mutations: {},
 });
