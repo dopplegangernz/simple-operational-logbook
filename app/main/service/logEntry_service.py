@@ -9,14 +9,13 @@ import app.main.util.utilFunctions as utilFunctions
 
 
 def save_log_entry(data):
-    authorId = User.query.filter_by(public_id=data['author_id']).first().id
-    groupId = Group.query.filter_by(public_id=data['group_id']).first().id
+    groupId = Group.query.filter_by(name=data['group_name']).first().id
 
     new_entry = LogEntry(
         public_id=str(uuid.uuid4()),
-        timestamp=datetime.now(datetime.timezone.utc),
+        timestamp=datetime.datetime.now(datetime.timezone.utc),
         subject=data['subject'],
-        author_id=authorId,
+        author_id=data['author_id'],
         group_id=groupId,
         text=data['text'],
     )
@@ -27,6 +26,10 @@ def save_log_entry(data):
         'id': new_entry.public_id
     }
     return response_object, 201
+
+
+def get_an_entry(public_id):
+    return LogEntry.query.filter_by(public_id=public_id).first()
 
 
 def get_entries_for_date(date):
@@ -47,10 +50,6 @@ def get_entries_by_subject(subject):
 
 def search_entries(searchString):
     pass
-
-
-def get_an_entry(public_id):
-    return LogEntry.query.filter_by(public_id=public_id).first()
 
 
 def save_changes(data):
