@@ -21,12 +21,17 @@ const store = new Vuex.Store({
       authKey: null,
       admin: false,
     },
+    activeGroup: null,
     date: null,
     searchString: null,
     entries: [],
-    groups: ["All", "A tab", "Another tab", "Yet another tab"],
+    groups: ["All", "Operations", "Design", "OSP"],
   },
-  mutations: {},
+  mutations: {
+    selectGroup(state, group) {
+      state.activeGroup = group;
+    },
+  },
 });
 
 new Vue({
