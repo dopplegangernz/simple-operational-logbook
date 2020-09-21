@@ -1,14 +1,25 @@
 <template>
   <div class="uiBar">
     <div class="search">search</div>
-    <div class="login">login</div>
+    <div class="login">{{ Name }}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: "UIBar",
-  props: {}
+  computed: {
+    Name() {
+      const name = this.$store.state.user.username;
+
+      if (name === null) {
+        return "Log in";
+      } else {
+        return name;
+      }
+    },
+  },
+  props: {},
 };
 </script>
 
