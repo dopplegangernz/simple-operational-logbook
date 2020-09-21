@@ -41,7 +41,7 @@ def get_entries_for_date(date):
             LogEntry.timestamp >= dayStart,
             LogEntry.timestamp <= dayEnd
         )
-    )
+    ).order_by(LogEntry.timestamp.desc()).all()
 
 
 def get_entries_by_subject(subject):

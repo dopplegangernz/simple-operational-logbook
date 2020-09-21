@@ -8,6 +8,8 @@ api = AuthDto.api
 user_auth = AuthDto.user_auth
 
 
+# route for / will statically serve the front end
+
 @api.route('/login')
 class UserLogin(Resource):
     """

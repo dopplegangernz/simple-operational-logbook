@@ -16,7 +16,7 @@ class TestLogEntry(BaseTestCase):
         authKey = json.loads(loginResp.data.decode())['Authorization']
 
         response = create_log_entry(
-            self, authKey, "Some subeject", "words, words, words")
+            self, authKey, "Some subject", "words, words, words")
 
         responseData = json.loads(response.data.decode())
 
