@@ -15,7 +15,7 @@ _logentry = LogEntriesDto.log_entries
 @api.response(404, 'No entries found.')
 class LogEntryListForToday(Resource):
     @api.doc('log_entries_from_today')
-    @api.marshal_list_with(_logentry, envelope='data')
+    @api.marshal_list_with(_logentry)
     def get(self):
         """List of log entries from today"""
 
@@ -30,7 +30,7 @@ class LogEntryListForDate(Resource):
     @ api.marshal_with(_logentry)
     def get(self, date):
         """get log engries for a date"""
-        targetDate = datetime.date.fromisoformat(date)
+        targetDate = datetime.datetime.fromisoformat(date)
 
         return get_entries_for_date(targetDate)
 
