@@ -7,7 +7,11 @@
       <h1>{{ Name }}</h1>
     </div>
     <div class="calendar">
-      <v-calendar></v-calendar><v-date-picker v-model="selectedDate" />
+      <v-calendar
+        :max-date="new Date()"
+        :attributes="calendarAttributes"
+        :v-model="selectedDate"
+      ></v-calendar>
     </div>
   </div>
 </template>
@@ -15,7 +19,21 @@
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      calendarAttributes: [
+        {
+          key: "today",
+          highlight: true,
+          dates: new Date(),
+        },
+      ],
+    };
+  },
   computed: {
+    selectedDate() {
+      return this.$store.state.selectedDate;
+    },
     Name() {
       return this.$store.state.appName;
     },
@@ -45,6 +63,5 @@ div.title {
 div.calendar {
   float: right;
   margin-right: 1em;
-  width: 100px;
 }
 </style>

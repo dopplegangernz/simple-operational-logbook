@@ -2,6 +2,7 @@
   <div class="logArea">
     <h1>Logs go here</h1>
     <p>searchstring = {{ searchString }}</p>
+    <p>selectedDate = {{ selectedDate }}</p>
   </div>
 </template>
 
@@ -11,6 +12,9 @@ export default {
   computed: {
     searchString() {
       return this.$store.state.searchString;
+    },
+    selectedDate() {
+      return this.$store.state.selectedDate;
     },
   },
 

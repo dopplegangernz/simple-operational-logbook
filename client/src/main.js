@@ -6,7 +6,7 @@ import Vuex from "vuex";
 Vue.config.productionTip = false;
 
 Vue.use(VCalendar, {
-  componentPrefix: "vc",
+  "disabled-dates": {},
 });
 
 Vue.use(Vuex);
@@ -23,6 +23,7 @@ const store = new Vuex.Store({
       authKey: null,
       admin: false,
     },
+    selectedDate: new Date(),
     activeGroup: null,
     date: null,
     searchString: "steve",
