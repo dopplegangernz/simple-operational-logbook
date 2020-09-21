@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header name="Simple operational logbook" Logo="logo.png" />
-    <TabBar />
+    <TabBar :v-bind:Groups="groups" />
     <UIBar />
     <LogArea />
     <Footer />
@@ -22,8 +22,13 @@ export default {
     Header,
     LogArea,
     TabBar,
-    UIBar
-  }
+    UIBar,
+  },
+  data: function() {
+    return {
+      groups: ["A tab", "Another tab", "Yet another tab"],
+    };
+  },
 };
 </script>
 
@@ -32,8 +37,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

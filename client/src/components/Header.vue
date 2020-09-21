@@ -6,7 +6,9 @@
     <div class="title">
       <h1>{{ Name }}</h1>
     </div>
-    <div class="calendar">Calendar goes here</div>
+    <div class="calendar">
+      <v-calendar></v-calendar><v-date-picker v-model="selectedDate" />
+    </div>
   </div>
 </template>
 
@@ -15,8 +17,8 @@ export default {
   name: "Header",
   props: {
     Name: String,
-    Logo: String
-  }
+    Logo: String,
+  },
 };
 </script>
 
@@ -26,6 +28,7 @@ div.header {
   width: 100%;
   text-align: center;
   overflow: hidden;
+  border-bottom: solid 1px rgb(#aaa);
 }
 div.logo {
   float: left;

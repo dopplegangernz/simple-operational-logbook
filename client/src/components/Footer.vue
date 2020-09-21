@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <h1>Footer</h1>
+    <span>Footer</span>
   </div>
 </template>
 
@@ -13,4 +13,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+div.footer {
+  border-top: solid 1px rgb(#aaa);
+}
 </style>
