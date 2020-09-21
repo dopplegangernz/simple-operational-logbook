@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "TabBar",
   computed: {
@@ -25,9 +26,7 @@ export default {
     },
   },
   methods: {
-    selectGroup: function(group) {
-      this.$store.commit("selectGroup", group);
-    },
+    ...mapMutations(["selectGroup"]),
   },
 };
 </script>

@@ -13,6 +13,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
+    appName: "Simple Operational Logbook",
+    logo: "logo.png",
     user: {
       username: null,
       email: null,
@@ -23,11 +25,14 @@ const store = new Vuex.Store({
     },
     activeGroup: null,
     date: null,
-    searchString: null,
+    searchString: "steve",
     entries: [],
     groups: ["All", "Operations", "Design", "OSP"],
   },
   mutations: {
+    setSearchString(state, searchString) {
+      state.searchString = searchString;
+    },
     selectGroup(state, group) {
       state.activeGroup = group;
     },

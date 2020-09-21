@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header name="Simple operational logbook" Logo="logo.png" />
-    <TabBar :v-bind:Groups="groups" />
+    <Header />
+    <TabBar />
     <UIBar />
     <LogArea />
     <Footer />

@@ -15,9 +15,13 @@
 <script>
 export default {
   name: "Header",
-  props: {
-    Name: String,
-    Logo: String,
+  computed: {
+    Name() {
+      return this.$store.state.appName;
+    },
+    Logo() {
+      return this.$store.state.logo;
+    },
   },
 };
 </script>
