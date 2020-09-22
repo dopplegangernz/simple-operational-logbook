@@ -1,47 +1,6 @@
 <template>
-  <span class="sol-button sol-userPanel" v-on:click="handleButtonClick">
+  <span class="sol-button sol-userPanel" v-on:click="showUserPanel">
     {{ Name }}
-    <modal
-      name="loginDialog"
-      :resizable="true"
-      draggable=".dragHandle"
-      :focusTrap="true"
-      :clickToClose="false"
-      classes="modalBox"
-      width="260px"
-      height="160px"
-    >
-      <div class="title dragHandle">
-        <span>Login</span>
-        <span class="sol-button" v-on:click="hideModal('loginDialog')"> x</span>
-      </div>
-      <div class="loginContent"></div>
-      <table>
-        <tr>
-          <th>User name:</th>
-          <td><input type="text" v-model="loginDialog.username" /></td>
-        </tr>
-        <tr>
-          <th>
-            Password:
-          </th>
-          <td>
-            <input type="password" v-model="loginDialog.password" />
-          </td>
-        </tr>
-      </table>
-
-      <div class="alertMessage" v-if="loginDialog.alertMessage">
-        {{ loginDialog.alertMessage }}
-      </div>
-      <div class="buttons">
-        <span class="sol-button" v-on:click="clearModal('loginDialog')"
-          >Cancel</span
-        >
-        <span class="sol-button" v-on:click="processLogin">Log in</span>
-      </div>
-    </modal>
-
     <modal
       name="userPanel"
       :resizable="true"
@@ -52,16 +11,14 @@
     >
       <div class="title dragHandle">
         <span>User informatioon for {{ Name }} </span>
-        <span class="sol-button" v-on:click="hideModal('userPanel')"> x</span>
+        <span class="sol-button" v-on:click="hideUserPanel()"> x</span>
       </div>
-      <div class="content"></div>
-      <div class="alertMessage" v-if="userPanel.alertMessage">
-        {{ userPanel.alertMessage }}
+      <div class="content">I'm a user panel, mum</div>
+      <div class="alertMessage" v-if="alertMessage">
+        {{ alertMessage }}
       </div>
       <div class="buttons">
-        <span class="sol-button" v-on:click="clearModal('userPanel')"
-          >Cancel</span
-        >
+        <span class="sol-button" v-on:click="clearUserPanel()">Cancel</span>
         <span class="sol-button" v-on:click="updateUser">Save</span>
       </div>
     </modal>
@@ -73,66 +30,35 @@ export default {
   name: "UserPanel",
   data: function() {
     return {
-      loginDialog: {
-        alertMessage: null,
-        username: null,
-        password: null,
-      },
-      userPanel: {
-        alertMessage: null,
-      },
+      alertMessage: null,
+      username: this.$store.state.user.username,
+      password: null,
+      email: this.$store.state.user.email,
     };
   },
   computed: {
     Name() {
-      const name = this.$store.state.user.username;
-
-      if (name === null) {
-        return "Log in";
-      } else {
-        return name;
-      }
+      return this.$store.state.user.username;
     },
   },
   methods: {
-    handleButtonClick() {
-      if (this.$store.state.user.username === null) {
-        this.showModal("loginDialog");
-      } else {
-        this.showModal("userPanel");
-      }
+    showUserPanel() {
+      this.$modal.show("userPanel");
     },
-    showModal(modalName) {
-      this.$modal.show(modalName);
+    hideUserPanel() {
+      this.$modal.hide("userPanel");
     },
-    hideModal(modalName) {
-      this.$modal.hide(modalName);
-    },
-    clearModal(modalName) {
-      if (modalName === "loginDialog") {
-        this.loginDialog.username = null;
-        this.loginDialog.password = null;
-      }
+    clearUserPanel() {
+      // Reset the panel to default
+      this.username = this.$store.state.user.username;
+      this.password = null;
+      this.email = this.$store.state.user.email;
 
-      this.$modal.hide(modalName);
-    },
-    processLogin() {
-      const loginDetails = {
-        username: this.loginDialog.username,
-        subject: this.loginDialog.password,
-      };
-
-      if (!loginDetails.username) {
-        this.loginDialog.alertMessage = "Please enter a username.";
-      } else if (!loginDetails.password) {
-        this.loginDialog.alertMessage = "Please enter a password.";
-      } else {
-        this.$store.dispatch("processLogin", loginDetails);
-        this.clearModal("loginDialog");
-      }
+      this.$modal.hide("userPanel");
     },
     updateUser() {
       let foo = "baa";
+      return foo;
     },
   },
 };

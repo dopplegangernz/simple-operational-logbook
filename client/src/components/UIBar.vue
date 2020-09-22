@@ -7,25 +7,32 @@
         >Go</span
       >
     </div>
-    <UserPanel />
+    <UserPanel v-if="isLoggedIn" />
+    <LoginDialog v-else />
   </div>
 </template>
 
 <script>
 import { mapMutations } from "vuex";
 import UserPanel from "./UserPanel.vue";
+import LoginDialog from "./LoginDialog.vue";
 
 export default {
   name: "UIBar",
   components: {
     UserPanel,
+    LoginDialog,
   },
   data: function() {
     return {
       SearchInputValue: this.$store.state.searchString,
     };
   },
-
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.user.username !== null;
+    },
+  },
   methods: {
     ...mapMutations(["setSearchString"]),
   },
@@ -62,6 +69,9 @@ div.search span {
   font-size: large;
 }
 .sol-userPanel {
+  float: right;
+}
+.sol-loginDialog {
   float: right;
 }
 </style>
