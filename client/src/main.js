@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import VCalendar from "v-calendar";
 import Vuex from "vuex";
+import VModal from "vue-js-modal";
 
 Vue.config.productionTip = false;
 
@@ -10,15 +11,16 @@ Vue.use(VCalendar, {
 });
 
 Vue.use(Vuex);
+Vue.use(VModal);
 
 const store = new Vuex.Store({
   state: {
     appName: "Simple Operational Logbook",
     logo: "logo.png",
     user: {
-      username: null,
+      username: "bob dobbs",
       email: null,
-      group: null,
+      group: "Design",
       id: null,
       authKey: null,
       admin: false,
@@ -64,6 +66,17 @@ const store = new Vuex.Store({
     },
     selectGroup(state, group) {
       state.activeGroup = group;
+    },
+    saveEntry(state, newEntry) {
+      state.entries.push(newEntry);
+    },
+  },
+  actions: {
+    saveEntry(context, newEntry) {
+      newEntry.timestamp = new Date();
+      newEntry.author_name = context.state.user.username;
+
+      context.commit("saveEntry", newEntry);
     },
   },
 });

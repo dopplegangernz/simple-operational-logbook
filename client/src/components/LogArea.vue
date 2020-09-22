@@ -1,8 +1,15 @@
 <template>
   <div class="logArea">
     <div class="buttonBar">
-      <span class="sol-button" id="newEntryButton">Create new entry</span>
+      <span
+        class="sol-button"
+        id="newEntryButton"
+        v-on:click="showNewEntryDialog"
+      >
+        Create new entry</span
+      >
     </div>
+    <NewLogEntryDialog />
     <LogEntry
       v-for="entry in visibleEntries"
       :key="entry.id"
@@ -13,11 +20,13 @@
 
 <script>
 import LogEntry from "./LogEntry.vue";
+import NewLogEntryDialog from "./NewLogEntryDialog.vue";
 
 export default {
   name: "LogArea",
   components: {
     LogEntry,
+    NewLogEntryDialog,
   },
   computed: {
     ActiveGroup() {
@@ -34,6 +43,11 @@ export default {
           return entry.group_name === activeGroup;
         });
       }
+    },
+  },
+  methods: {
+    showNewEntryDialog() {
+      this.$modal.show("newEntryDialog");
     },
   },
 };
