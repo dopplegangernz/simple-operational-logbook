@@ -2,19 +2,14 @@
   <div class="sol-logEntry">
     <div class="sol-logEntry-metadata">
       <div class="sol-logEntry-timestamp">
-        {{
-          entryData.timestamp
-            .toISOString()
-            .slice(0, 16)
-            .replace(/-/g, "/")
-            .replace("T", " ")
-        }}
+        {{ entryData.timestamp.toLocaleDateString() }}
+        {{ entryData.timestamp.toLocaleTimeString() }}
       </div>
       <div class="sol-logEntry-author">{{ entryData.author_name }}</div>
     </div>
     <div class="sol-logEntry-content ">
       <div class="sol-logEntry-title">
-        <span :v-if="ActiveGroup === 'All'"> [{{ entryData.group_name }}]</span>
+        <span v-if="ActiveGroup === 'All'"> [{{ entryData.group_name }}]</span>
         {{ entryData.subject }}
       </div>
       <div class="sol-logEntry-text">

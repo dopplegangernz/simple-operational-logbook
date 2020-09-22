@@ -1,15 +1,8 @@
 <template>
   <div class="logArea">
     <div class="buttonBar">
-      <span
-        class="sol-button"
-        id="newEntryButton"
-        v-on:click="showNewEntryDialog"
-      >
-        Create new entry</span
-      >
+      <NewLogEntryDialog />
     </div>
-    <NewLogEntryDialog />
     <LogEntry
       v-for="entry in visibleEntries"
       :key="entry.id"
@@ -45,11 +38,6 @@ export default {
       }
     },
   },
-  methods: {
-    showNewEntryDialog() {
-      this.$modal.show("newEntryDialog");
-    },
-  },
 };
 </script>
 
@@ -57,8 +45,5 @@ export default {
 <style scoped lang="less">
 div.buttonBar {
   text-align: center;
-}
-#newEntryButton {
-  margin-top: 6px;
 }
 </style>

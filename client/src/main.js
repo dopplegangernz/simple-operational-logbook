@@ -18,7 +18,7 @@ const store = new Vuex.Store({
     appName: "Simple Operational Logbook",
     logo: "logo.png",
     user: {
-      username: "bob dobbs",
+      username: null,
       email: null,
       group: "Design",
       id: null,
@@ -77,6 +77,9 @@ const store = new Vuex.Store({
       newEntry.author_name = context.state.user.username;
 
       context.commit("saveEntry", newEntry);
+    },
+    processLogin(context, loginDetails) {
+      return { context, loginDetails };
     },
   },
 });

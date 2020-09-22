@@ -7,30 +7,25 @@
         >Go</span
       >
     </div>
-    <span class="login sol-button">{{ Name }}</span>
+    <UserPanel />
   </div>
 </template>
 
 <script>
 import { mapMutations } from "vuex";
+import UserPanel from "./UserPanel.vue";
+
 export default {
   name: "UIBar",
+  components: {
+    UserPanel,
+  },
   data: function() {
     return {
       SearchInputValue: this.$store.state.searchString,
     };
   },
-  computed: {
-    Name() {
-      const name = this.$store.state.user.username;
 
-      if (name === null) {
-        return "Log in";
-      } else {
-        return name;
-      }
-    },
-  },
   methods: {
     ...mapMutations(["setSearchString"]),
   },
@@ -66,7 +61,7 @@ div.search label {
 div.search span {
   font-size: large;
 }
-span.login {
+.sol-userPanel {
   float: right;
 }
 </style>
