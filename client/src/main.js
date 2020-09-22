@@ -24,15 +24,43 @@ const store = new Vuex.Store({
       admin: false,
     },
     selectedDate: new Date(),
-    activeGroup: null,
+    activeGroup: "All",
     date: null,
-    searchString: "steve",
-    entries: [],
+    searchString: null,
+    entries: [
+      {
+        id: "21341234123",
+        subject: "some subject",
+        timestamp: new Date("2020-09-22 09:20:00"),
+        text: "words words words",
+        author_name: "john smith",
+        group_name: "Operations",
+      },
+      {
+        id: "23453",
+        subject: "some subject",
+        timestamp: new Date("2020-09-22 09:20:00"),
+        text: "different words",
+        author_name: "john Jones",
+        group_name: "Operations",
+      },
+      {
+        id: "2349y",
+        subject: "some subject",
+        timestamp: new Date("2020-09-22 09:20:00"),
+        text: "an anecdote about fish",
+        author_name: "Steve smith",
+        group_name: "Design",
+      },
+    ],
     groups: ["All", "Operations", "Design", "OSP"],
   },
   mutations: {
     setSearchString(state, searchString) {
       state.searchString = searchString;
+    },
+    setSelectedDate(state, selectedDate) {
+      state.selectedDate = selectedDate;
     },
     selectGroup(state, group) {
       state.activeGroup = group;

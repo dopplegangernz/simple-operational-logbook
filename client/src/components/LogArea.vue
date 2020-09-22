@@ -1,28 +1,50 @@
 <template>
   <div class="logArea">
-    <h1>Logs go here</h1>
-    <p>searchstring = {{ searchString }}</p>
-    <p>selectedDate = {{ selectedDate }}</p>
+    <div class="buttonBar">
+      <span class="sol-button" id="newEntryButton">Create new entry</span>
+    </div>
+    <LogEntry
+      v-for="entry in visibleEntries"
+      :key="entry.id"
+      :entryData="entry"
+    />
   </div>
 </template>
 
 <script>
+import LogEntry from "./LogEntry.vue";
+
 export default {
   name: "LogArea",
-  computed: {
-    searchString() {
-      return this.$store.state.searchString;
-    },
-    selectedDate() {
-      return this.$store.state.selectedDate;
-    },
+  components: {
+    LogEntry,
   },
+  computed: {
+    ActiveGroup() {
+      return this.$store.state.activeGroup;
+    },
+    visibleEntries() {
+      const entries = this.$store.state.entries;
+      const activeGroup = this.$store.state.activeGroup;
 
-  props: {
-    Entries: Array,
+      if (activeGroup === "All") {
+        return entries;
+      } else {
+        return entries.filter(function(entry) {
+          return entry.group_name === activeGroup;
+        });
+      }
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less"></style>
+<style scoped lang="less">
+div.buttonBar {
+  text-align: center;
+}
+#newEntryButton {
+  margin-top: 6px;
+}
+</style>

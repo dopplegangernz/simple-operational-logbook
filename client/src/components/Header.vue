@@ -7,11 +7,13 @@
       <h1>{{ Name }}</h1>
     </div>
     <div class="calendar">
-      <v-calendar
+      <v-date-picker
+        v-model="selectedDate"
         :max-date="new Date()"
         :attributes="calendarAttributes"
-        :v-model="selectedDate"
-      ></v-calendar>
+        :is-required="true"
+      >
+      </v-date-picker>
     </div>
   </div>
 </template>
@@ -24,15 +26,20 @@ export default {
       calendarAttributes: [
         {
           key: "today",
-          highlight: true,
+          highlight: "red",
           dates: new Date(),
         },
       ],
     };
   },
   computed: {
-    selectedDate() {
-      return this.$store.state.selectedDate;
+    selectedDate: {
+      get() {
+        return this.$store.state.selectedDate;
+      },
+      set(value) {
+        this.$store.commit("setSelectedDate", value);
+      },
     },
     Name() {
       return this.$store.state.appName;
@@ -48,20 +55,29 @@ export default {
 <style scoped lang="less">
 div.header {
   width: 100%;
-  text-align: center;
+  display: table;
   overflow: hidden;
   border-bottom: solid 1px rgb(#aaa);
 }
 div.logo {
-  float: left;
+  display: table-cell;
   margin-left: 1em;
-  width: 100px;
+  width: 200px;
 }
 div.title {
-  display: inline-block;
+  display: table-cell;
+  text-align: center;
 }
 div.calendar {
-  float: right;
-  margin-right: 1em;
+  width: 300px;
+  display: table-cell;
+}
+</style>
+<style lang="less">
+div.calendar input {
+  width: 14em;
+}
+div.calendar .vc-text-sm {
+  font-size: 12px;
 }
 </style>

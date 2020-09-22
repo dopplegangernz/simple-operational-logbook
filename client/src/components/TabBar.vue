@@ -4,8 +4,7 @@
       v-for="group in Groups"
       :key="group"
       v-bind:class="{
-        active:
-          (group === 'All' && ActiveGroup === null) || group === ActiveGroup,
+        active: group === ActiveGroup,
       }"
       v-on:click="selectGroup(group)"
       >{{ group }}</span

@@ -3,9 +3,11 @@
     <div class="search">
       <label for="searchInput"> Search:</label>
       <input v-model="SearchInputValue" id="searchInput" type="text" />
-      <button v-on:click="setSearchString(SearchInputValue)">Go</button>
+      <span class="sol-button" v-on:click="setSearchString(SearchInputValue)"
+        >Go</span
+      >
     </div>
-    <div class="login">{{ Name }}</div>
+    <span class="login sol-button">{{ Name }}</span>
   </div>
 </template>
 
@@ -46,7 +48,6 @@ div.uiBar {
 div.search {
   float: left;
   margin-left: 2em;
-  display: inline-block;
 }
 div.search label {
   font-size: large;
@@ -62,26 +63,10 @@ div.search label {
   border-width: 1px;
   font-size: large;
 }
-div.search button {
+div.search span {
   font-size: large;
 }
-
-div.login,
-div.search button {
+span.login {
   float: right;
-  display: inline-block;
-  margin-right: 2em;
-  margin-left: 2em;
-  padding-left: 1em;
-  padding-right: 1em;
-  background: rgb(#ddd);
-  border: solid;
-  border-radius: 0.5em;
-  border-color: rgb(#aaa);
-  border-width: 1px;
-}
-div.login:hover,
-div.search button:hover {
-  background: rgb(#eee);
 }
 </style>

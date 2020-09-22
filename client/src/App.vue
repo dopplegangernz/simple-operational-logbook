@@ -34,4 +34,19 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+span.sol-button {
+  display: inline-block;
+  margin-right: 2em;
+  margin-left: 2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  background: rgb(#ddd);
+  border: solid;
+  border-radius: 0.5em;
+  border-color: rgb(#aaa);
+  border-width: 1px;
+}
+span.sol-button:hover {
+  background: rgb(#eee);
+}
 </style>
