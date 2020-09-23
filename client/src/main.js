@@ -3,15 +3,17 @@ import App from "./App.vue";
 import VCalendar from "v-calendar";
 import Vuex from "vuex";
 import VModal from "vue-js-modal";
+import Loading from "vue-loading-overlay";
+
+const vuexMutations = require("./vuex/mutations.js");
+const vuexActions = require("./vuex/actions.js");
 
 Vue.config.productionTip = false;
 
-Vue.use(VCalendar, {
-  "disabled-dates": {},
-});
-
+Vue.use(VCalendar);
 Vue.use(Vuex);
 Vue.use(VModal);
+Vue.use(Loading);
 
 const store = new Vuex.Store({
   state: {
@@ -23,7 +25,7 @@ const store = new Vuex.Store({
       group: "Design",
       id: null,
       authKey: null,
-      admin: false,
+      isAdmin: false,
     },
     selectedDate: new Date(),
     activeGroup: "All",
@@ -57,31 +59,8 @@ const store = new Vuex.Store({
     ],
     groups: ["All", "Operations", "Design", "OSP"],
   },
-  mutations: {
-    setSearchString(state, searchString) {
-      state.searchString = searchString;
-    },
-    setSelectedDate(state, selectedDate) {
-      state.selectedDate = selectedDate;
-    },
-    selectGroup(state, group) {
-      state.activeGroup = group;
-    },
-    saveEntry(state, newEntry) {
-      state.entries.push(newEntry);
-    },
-  },
-  actions: {
-    saveEntry(context, newEntry) {
-      newEntry.timestamp = new Date();
-      newEntry.author_name = context.state.user.username;
-
-      context.commit("saveEntry", newEntry);
-    },
-    processLogin(context, loginDetails) {
-      return { context, loginDetails };
-    },
-  },
+  mutations: vuexMutations,
+  actions: vuexActions,
 });
 
 new Vue({

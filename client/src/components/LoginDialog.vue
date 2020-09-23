@@ -8,32 +8,30 @@
       :focusTrap="true"
       :clickToClose="false"
       classes="modalBox"
-      width="260px"
+      width="300px"
       height="160px"
     >
       <div class="title dragHandle">
         <span>Login</span>
-        <span class="sol-button" v-on:click="hideLoginDialog"> x</span>
+        <span class="sol-button" v-on:click="hideLoginDialog">x</span>
       </div>
       <div class="loginContent"></div>
       <table>
         <tr>
-          <th>User name:</th>
-          <td><input type="text" v-model="username" /></td>
+          <th>Email address:</th>
+          <td>
+            <input type="text" v-model="email" />
+          </td>
         </tr>
         <tr>
-          <th>
-            Password:
-          </th>
+          <th>Password:</th>
           <td>
             <input type="password" v-model="password" />
           </td>
         </tr>
       </table>
 
-      <div class="alertMessage" v-if="alertMessage">
-        {{ alertMessage }}
-      </div>
+      <div class="alertMessage" v-if="alertMessage">{{ alertMessage }}</div>
       <div class="buttons">
         <span class="sol-button" v-on:click="clearLoginDialog">Cancel</span>
         <span class="sol-button" v-on:click="processLogin">Log in</span>
@@ -47,8 +45,8 @@ export default {
   data: function() {
     return {
       alertMessage: null,
-      username: null,
-      password: null,
+      email: null,
+      password: null
     };
   },
   methods: {
@@ -59,27 +57,34 @@ export default {
       this.$modal.hide("loginDialog");
     },
     clearLoginDialog() {
-      this.username = null;
+      this.email = null;
       this.password = null;
 
       this.$modal.hide("loginDialog");
     },
     processLogin() {
       const loginDetails = {
-        username: this.loginDialog.username,
-        subject: this.loginDialog.password,
+        email: this.email,
+        password: this.password
       };
 
-      if (!loginDetails.username) {
-        this.loginDialog.alertMessage = "Please enter a username.";
+      if (!loginDetails.email) {
+        this.alertMessage = "Please enter a email address.";
       } else if (!loginDetails.password) {
-        this.loginDialog.alertMessage = "Please enter a password.";
+        this.alertMessage = "Please enter a password.";
       } else {
-        this.$store.dispatch("processLogin", loginDetails);
-        this.clearModal("loginDialog");
+        const self = this;
+        this.$store
+          .dispatch("processLogin", loginDetails)
+          .then(function() {
+            self.clearLoginDialog("loginDialog");
+          })
+          .catch(function(reason) {
+            self.alertMessage = reason;
+          });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1,13 +1,9 @@
 <template>
   <div class="logArea">
     <div class="buttonBar">
-      <NewLogEntryDialog />
+      <NewLogEntryDialog v-if="isLoggedIn" />
     </div>
-    <LogEntry
-      v-for="entry in visibleEntries"
-      :key="entry.id"
-      :entryData="entry"
-    />
+    <LogEntry v-for="entry in visibleEntries" :key="entry.id" :entryData="entry" />
   </div>
 </template>
 
@@ -19,9 +15,12 @@ export default {
   name: "LogArea",
   components: {
     LogEntry,
-    NewLogEntryDialog,
+    NewLogEntryDialog
   },
   computed: {
+    isLoggedIn() {
+      return this.$store.state.user.username !== null;
+    },
     ActiveGroup() {
       return this.$store.state.activeGroup;
     },
@@ -36,8 +35,8 @@ export default {
           return entry.group_name === activeGroup;
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
