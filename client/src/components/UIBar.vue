@@ -5,8 +5,10 @@
       <input v-model="SearchInputValue" id="searchInput" type="text" />
       <span class="sol-button" v-on:click="setSearchString(SearchInputValue)">Go</span>
     </div>
-    <UserPanel v-if="isLoggedIn" />
-    <LoginDialog />
+    <span class="buttons">
+      <UserPanel v-if="isLoggedIn" />
+      <LoginDialog />
+    </span>
   </div>
 </template>
 
@@ -27,6 +29,9 @@ export default {
     };
   },
   computed: {
+    isAdmin() {
+      return this.$store.state.user.isAdmin;
+    },
     isLoggedIn() {
       return this.$store.state.user.username !== null;
     }
@@ -64,10 +69,7 @@ div.search label {
 div.search span {
   font-size: large;
 }
-.sol-userPanel {
-  float: right;
-}
-.sol-loginDialog {
+span.buttons {
   float: right;
 }
 </style>
