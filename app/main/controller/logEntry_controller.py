@@ -29,7 +29,7 @@ class LogEntryList(Resource):
 
 
 @api.route('/<public_id>')
-@api.param('public_id', 'The LogEntry identifier')
+@api.param('public_id', 'The LogEntry identifir')
 @api.response(404, 'LogEntry not found.')
 class LogEntry(Resource):
     @api.doc('get a logentry')

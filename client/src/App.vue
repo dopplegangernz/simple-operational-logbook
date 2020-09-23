@@ -19,6 +19,7 @@ export default {
     LogArea
   },
   mounted: function() {
+    this.$store.commit("defaultUserDetails");
     this.$store.dispatch("fetchGroups").catch(function(reason) {
       alert(reason);
     });
@@ -31,7 +32,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: @textColour;
 }
 span.sol-button {
   display: inline-block;

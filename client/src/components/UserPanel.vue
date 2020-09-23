@@ -1,5 +1,5 @@
 <template>
-  <span class="sol-button sol-userPanel" v-on:click="showUserPanel">
+  <span class="sol-userPanel" v-on:click="showUserPanel">
     {{ Name }}
     <modal
       name="userPanel"
@@ -10,13 +10,11 @@
       classes="modalBox"
     >
       <div class="title dragHandle">
-        <span>User informatioon for {{ Name }} </span>
-        <span class="sol-button" v-on:click="hideUserPanel()"> x</span>
+        <span>User information for {{ Name }}</span>
+        <span class="sol-button" v-on:click="hideUserPanel()">x</span>
       </div>
       <div class="content">I'm a user panel, mum</div>
-      <div class="alertMessage" v-if="alertMessage">
-        {{ alertMessage }}
-      </div>
+      <div class="alertMessage" v-if="alertMessage">{{ alertMessage }}</div>
       <div class="buttons">
         <span class="sol-button" v-on:click="clearUserPanel()">Cancel</span>
         <span class="sol-button" v-on:click="updateUser">Save</span>
@@ -33,13 +31,13 @@ export default {
       alertMessage: null,
       username: this.$store.state.user.username,
       password: null,
-      email: this.$store.state.user.email,
+      email: this.$store.state.user.email
     };
   },
   computed: {
     Name() {
       return this.$store.state.user.username;
-    },
+    }
   },
   methods: {
     showUserPanel() {
@@ -59,8 +57,8 @@ export default {
     updateUser() {
       let foo = "baa";
       return foo;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -68,6 +66,13 @@ export default {
 <style scoped lang="less">
 .modalBox {
   border: @mediumBorder;
+}
+span.sol-userPanel {
+  color: @linkcolour;
+}
+
+span.sol-userPanel div {
+  color: @textColour;
 }
 div.title {
   width: 100%;
