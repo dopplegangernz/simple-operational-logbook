@@ -33,14 +33,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 div.tabBar {
-  padding-top: 6px;
-  border-bottom: solid 1px rgb(#aaa);
+  padding-top: @mediumPadding;
+  border-bottom: @mediumBorder;
   width: 100%;
-  background: rgb(#888);
+  background: @darkColour;
 }
 span {
-  border: solid 1px rgb(#aaa);
-  background: rgb(#ddd);
+  border: @mediumBorder;
+  background: @mediumColour;
   margin-left: 1em;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -48,13 +48,13 @@ span {
   border-top-right-radius: 0.5em;
 }
 span:hover {
-  background: rgb(#fff);
+  background: @backgroundColour;
 }
 span.active {
-  background: rgb(#888);
+  background: @darkColour;
 }
 span.active:hover {
-  background: rgb(#000);
-  color: rgb(#fff);
+  background: @veryDarkColour;
+  color: @backgroundColour;
 }
 </style>

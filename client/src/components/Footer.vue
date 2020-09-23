@@ -26,6 +26,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 div.footer {
-  border-top: solid 1px rgb(#aaa);
+  border-top: @mediumBorder;
 }
 </style>

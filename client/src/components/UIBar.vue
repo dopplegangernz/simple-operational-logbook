@@ -3,7 +3,9 @@
     <div class="search">
       <label for="searchInput">Search:</label>
       <input v-model="SearchInputValue" id="searchInput" type="text" />
-      <span class="sol-button" v-on:click="setSearchString(SearchInputValue)">Go</span>
+      <span class="sol-button" v-on:click="setSearchString(SearchInputValue)"
+        >Go</span
+      >
     </div>
     <UserPanel v-if="isLoggedIn" />
     <LoginDialog v-else />
@@ -19,21 +21,21 @@ export default {
   name: "UIBar",
   components: {
     UserPanel,
-    LoginDialog
+    LoginDialog,
   },
   data: function() {
     return {
-      SearchInputValue: this.$store.state.searchString
+      SearchInputValue: this.$store.state.searchString,
     };
   },
   computed: {
     isLoggedIn() {
       return this.$store.state.user.username !== null;
-    }
+    },
   },
   methods: {
-    ...mapMutations(["setSearchString"])
-  }
+    ...mapMutations(["setSearchString"]),
+  },
 };
 </script>
 
@@ -57,7 +59,7 @@ div.search label {
   width: 20em;
   border-radius: 0.5em;
   border: solid;
-  border-color: rgb(#aaa);
+  border-color: @lightColour;
   border-width: 1px;
   font-size: large;
 }

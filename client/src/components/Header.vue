@@ -33,7 +33,7 @@ export default {
   name: "Header",
   components: {
     TabBar,
-    UIBar
+    UIBar,
   },
   data() {
     return {
@@ -41,9 +41,9 @@ export default {
         {
           key: "today",
           highlight: "red",
-          dates: new Date()
-        }
-      ]
+          dates: new Date(),
+        },
+      ],
     };
   },
   computed: {
@@ -53,15 +53,15 @@ export default {
       },
       set(value) {
         this.$store.commit("setSelectedDate", value);
-      }
+      },
     },
     Name() {
       return this.$store.state.appName;
     },
     Logo() {
       return this.$store.state.logo;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -71,14 +71,14 @@ div.header {
   width: 100%;
   display: block;
   overflow: hidden;
-  border-bottom: solid 1px rgb(#aaa);
+  border-bottom: @mediumBorder;
 }
 div.logo {
   display: inline-block;
   margin-left: 1em;
   width: 200px;
   padding-right: 6px;
-  border-right: solid 1px rgb(#aaa);
+  border-right: @mediumBorder;
 }
 div.restOfHeader {
   display: inline-block;

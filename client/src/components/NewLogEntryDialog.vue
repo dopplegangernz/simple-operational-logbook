@@ -103,22 +103,22 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 #newEntryButton {
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-top: @mediumPadding;
+  margin-bottom: @mediumPadding;
 }
 .modalBox {
-  border: 1px solid rgb(#aaa);
+  border: @mediumBorder;
 }
 div.title {
   width: 100%;
   text-align: center;
-  background: rgb(#ddd);
+  background: @mediumColour;
   font-size: larger;
 }
 div.title span.sol-button {
   float: right;
   font-size: small;
-  margin-top: 3px;
+  margin-top: @smallPadding;
 }
 table {
   width: 98%;
@@ -138,7 +138,7 @@ textarea {
 }
 div.alertMessage {
   text-align: center;
-  color: red;
+  color: @alertColour;
   font-weight: bold;
 }
 div.buttons {

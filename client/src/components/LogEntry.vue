@@ -37,14 +37,14 @@ export default {
 <style scoped lang="less">
 .sol-logEntry {
   width: 100%;
-  border-top: 1px solid rgb(#ddd);
+  border-top: @lightBorder;
 }
 .sol-logEntry-metadata {
   display: inline-block;
-  border-right: 1px solid rgb(#ddd);
+  border-right: @lightBorder;
   padding-right: 1em;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-top: @mediumPadding;
+  padding-bottom: @mediumPadding;
   width: 15%;
 }
 .sol-logEntry-content {
@@ -54,6 +54,6 @@ export default {
 }
 .sol-logEntry-title {
   width: 100%;
-  background: rgb(#ddd);
+  background: @mediumColour;
 }
 </style>

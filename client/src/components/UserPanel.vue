@@ -67,22 +67,22 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .modalBox {
-  border: 1px solid rgb(#aaa);
+  border: @mediumBorder;
 }
 div.title {
   width: 100%;
   text-align: center;
-  background: rgb(#ddd);
+  background: @mediumColour;
   font-size: larger;
 }
 div.title span.sol-button {
   float: right;
   font-size: small;
-  margin-top: 3px;
+  margin-top: @smallPadding;
 }
 div.alertMessage {
   text-align: center;
-  color: red;
+  color: @alertColour;
   font-weight: bold;
 }
 div.buttons {

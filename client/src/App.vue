@@ -16,8 +16,8 @@ export default {
   components: {
     Footer,
     Header,
-    LogArea
-  }
+    LogArea,
+  },
 };
 </script>
 
@@ -34,13 +34,13 @@ span.sol-button {
   margin-left: 2em;
   padding-left: 1em;
   padding-right: 1em;
-  background: rgb(#ddd);
+  background: @mediumColour;
   border: solid;
   border-radius: 0.5em;
-  border-color: rgb(#aaa);
+  border-color: @lightColour;
   border-width: 1px;
 }
 span.sol-button:hover {
-  background: rgb(#eee);
+  background: @lightColour;
 }
 </style>
