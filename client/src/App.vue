@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <Header />
-    <TabBar />
-    <UIBar />
     <LogArea />
     <Footer />
   </div>
@@ -12,18 +10,14 @@
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
 import LogArea from "./components/LogArea.vue";
-import TabBar from "./components/TabBar.vue";
-import UIBar from "./components/UIBar.vue";
 
 export default {
   name: "App",
   components: {
     Footer,
     Header,
-    LogArea,
-    TabBar,
-    UIBar,
-  },
+    LogArea
+  }
 };
 </script>
 

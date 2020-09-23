@@ -3,33 +3,47 @@
     <div class="logo">
       <img alt="Logo" v-bind:src="Logo" />
     </div>
-    <div class="title">
-      <h1>{{ Name }}</h1>
-    </div>
-    <div class="calendar">
-      <v-date-picker
-        v-model="selectedDate"
-        :max-date="new Date()"
-        :attributes="calendarAttributes"
-        :is-required="true"
-      >
-      </v-date-picker>
+    <div class="restOfHeader">
+      <div class="table">
+        <div class="row">
+          <div class="title">
+            <h1>{{ Name }}</h1>
+          </div>
+          <div class="calendar">
+            <v-date-picker
+              v-model="selectedDate"
+              :max-date="new Date()"
+              :attributes="calendarAttributes"
+              :is-required="true"
+            ></v-date-picker>
+          </div>
+        </div>
+      </div>
+      <TabBar />
+      <UIBar />
     </div>
   </div>
 </template>
 
 <script>
+import TabBar from "./TabBar.vue";
+import UIBar from "./UIBar.vue";
+
 export default {
   name: "Header",
+  components: {
+    TabBar,
+    UIBar
+  },
   data() {
     return {
       calendarAttributes: [
         {
           key: "today",
           highlight: "red",
-          dates: new Date(),
-        },
-      ],
+          dates: new Date()
+        }
+      ]
     };
   },
   computed: {
@@ -39,15 +53,15 @@ export default {
       },
       set(value) {
         this.$store.commit("setSelectedDate", value);
-      },
+      }
     },
     Name() {
       return this.$store.state.appName;
     },
     Logo() {
       return this.$store.state.logo;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -55,15 +69,30 @@ export default {
 <style scoped lang="less">
 div.header {
   width: 100%;
-  display: table;
+  display: block;
   overflow: hidden;
   border-bottom: solid 1px rgb(#aaa);
 }
 div.logo {
-  display: table-cell;
+  display: inline-block;
   margin-left: 1em;
   width: 200px;
+  padding-right: 6px;
+  border-right: solid 1px rgb(#aaa);
 }
+div.restOfHeader {
+  display: inline-block;
+  width: 85%;
+}
+div.table {
+  display: table;
+  width: 100%;
+}
+div.row {
+  display: table-row;
+  width: 100%;
+}
+
 div.title {
   display: table-cell;
   text-align: center;
