@@ -11,7 +11,7 @@ _group = GroupDto.group
 @api.route('/')
 class GroupList(Resource):
     @api.doc('list_of_registered_groups')
-    @api.marshal_list_with(_group, envelope='data')
+    @api.marshal_list_with(_group)
     def get(self):
         """List all registered groups"""
         return get_all_groups()

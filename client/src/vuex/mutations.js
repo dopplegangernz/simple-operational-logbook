@@ -19,4 +19,20 @@ module.exports = {
     state.user.authKey = userDetails.Authorization;
     state.user.isAdmin = userDetails.isAdmin;
   },
+  defaultUserDetails(state) {
+    state.user.username = null;
+    state.user.email = null;
+    state.user.group = "All";
+    state.user.id = null;
+    state.user.authKey = null;
+    state.user.isAdmin = false;
+  },
+  setGroups(state, groups) {
+    groups.unshift({
+      name: "All",
+      description: "All groups",
+      is: 1,
+    });
+    state.groups = groups;
+  },
 };

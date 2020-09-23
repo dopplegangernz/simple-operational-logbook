@@ -16,8 +16,13 @@ export default {
   components: {
     Footer,
     Header,
-    LogArea,
+    LogArea
   },
+  mounted: function() {
+    this.$store.dispatch("fetchGroups").catch(function(reason) {
+      alert(reason);
+    });
+  }
 };
 </script>
 

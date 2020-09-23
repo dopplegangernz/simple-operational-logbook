@@ -1,6 +1,7 @@
 <template>
-  <span class="sol-button sol-loginDialog" v-on:click="showLoginDialog">
-    Log in
+  <span class="sol-loginDialog">
+    <span class="sol-button" v-if="isLoggedIn" v-on:click="processLogout">Log out</span>
+    <span class="sol-button" v-else v-on:click="showLoginDialog">Log in</span>
     <modal
       name="loginDialog"
       :resizable="true"
@@ -49,6 +50,11 @@ export default {
       password: null
     };
   },
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.user.username !== null;
+    }
+  },
   methods: {
     showLoginDialog() {
       this.$modal.show("loginDialog");
@@ -61,6 +67,11 @@ export default {
       this.password = null;
 
       this.$modal.hide("loginDialog");
+    },
+    processLogout() {
+      this.$store.dispatch("processLogout").catch(function(reason) {
+        alert(reason);
+      });
     },
     processLogin() {
       const loginDetails = {

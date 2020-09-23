@@ -2,13 +2,12 @@
   <div class="tabBar">
     <span
       v-for="group in Groups"
-      :key="group"
+      :key="group.id"
       v-bind:class="{
-        active: group === ActiveGroup,
+        active: group.name === ActiveGroup,
       }"
-      v-on:click="selectGroup(group)"
-      >{{ group }}</span
-    >
+      v-on:click="selectGroup(group.name)"
+    >{{ group.name }}</span>
   </div>
 </template>
 
@@ -22,11 +21,11 @@ export default {
     },
     Groups() {
       return this.$store.state.groups;
-    },
+    }
   },
   methods: {
-    ...mapMutations(["selectGroup"]),
-  },
+    ...mapMutations(["selectGroup"])
+  }
 };
 </script>
 

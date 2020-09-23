@@ -11,25 +11,27 @@
     >
       <div class="title dragHandle">
         <span>New Log Entry</span>
-        <span class="sol-button" v-on:click="hideNewEntryDialog"> x</span>
+        <span class="sol-button" v-on:click="hideNewEntryDialog">x</span>
       </div>
       <div class="content">
         <table>
           <tr>
             <th>Group:</th>
             <td>
-              <select v-model="selectedGroup"
-                ><option v-for="group in Groups" :key="group"
-                  >{{ group }}
-                </option>
+              <select v-model="selectedGroup">
+                <option v-for="group in Groups" :key="group.name">{{ group.name }}</option>
               </select>
             </td>
           </tr>
           <th>Subject:</th>
-          <td><input v-model="subject" type="text" /></td>
+          <td>
+            <input v-model="subject" type="text" />
+          </td>
           <tr>
             <th>Text:</th>
-            <td><textarea v-model="text" /></td>
+            <td>
+              <textarea v-model="text" />
+            </td>
           </tr>
         </table>
       </div>
@@ -53,15 +55,15 @@ export default {
           : this.$store.state.activeGroup,
       subject: null,
       text: null,
-      alertMessage: null,
+      alertMessage: null
     };
   },
   computed: {
     Groups() {
-      return this.$store.state.groups.filter(function(name) {
-        return name !== "All";
+      return this.$store.state.groups.filter(function(group) {
+        return group.wname !== "All";
       });
-    },
+    }
   },
   methods: {
     showNewEntryDialog() {
@@ -84,7 +86,7 @@ export default {
       const newEntry = {
         group_name: this.selectedGroup,
         subject: this.subject,
-        text: this.text,
+        text: this.text
       };
 
       if (!newEntry.subject) {
@@ -95,8 +97,8 @@ export default {
         this.$store.dispatch("saveEntry", newEntry);
         this.clearNewEntryDialog();
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -3,12 +3,10 @@
     <div class="search">
       <label for="searchInput">Search:</label>
       <input v-model="SearchInputValue" id="searchInput" type="text" />
-      <span class="sol-button" v-on:click="setSearchString(SearchInputValue)"
-        >Go</span
-      >
+      <span class="sol-button" v-on:click="setSearchString(SearchInputValue)">Go</span>
     </div>
     <UserPanel v-if="isLoggedIn" />
-    <LoginDialog v-else />
+    <LoginDialog />
   </div>
 </template>
 
@@ -21,21 +19,21 @@ export default {
   name: "UIBar",
   components: {
     UserPanel,
-    LoginDialog,
+    LoginDialog
   },
   data: function() {
     return {
-      SearchInputValue: this.$store.state.searchString,
+      SearchInputValue: this.$store.state.searchString
     };
   },
   computed: {
     isLoggedIn() {
       return this.$store.state.user.username !== null;
-    },
+    }
   },
   methods: {
-    ...mapMutations(["setSearchString"]),
-  },
+    ...mapMutations(["setSearchString"])
+  }
 };
 </script>
 
