@@ -19,7 +19,9 @@
             <th>Group:</th>
             <td>
               <select v-model="selectedGroup">
-                <option v-for="group in Groups" :key="group.name">{{ group.name }}</option>
+                <option v-for="group in Groups" :key="group.name">{{
+                  group.name
+                }}</option>
               </select>
             </td>
           </tr>
@@ -55,15 +57,15 @@ export default {
           : this.$store.state.activeGroup,
       subject: null,
       text: null,
-      alertMessage: null
+      alertMessage: null,
     };
   },
   computed: {
     Groups() {
       return this.$store.state.groups.filter(function(group) {
-        return group.wname !== "All";
+        return group.name !== "All";
       });
-    }
+    },
   },
   methods: {
     showNewEntryDialog() {
@@ -86,7 +88,7 @@ export default {
       const newEntry = {
         group_name: this.selectedGroup,
         subject: this.subject,
-        text: this.text
+        text: this.text,
       };
 
       if (!newEntry.subject) {
@@ -94,11 +96,17 @@ export default {
       } else if (!newEntry.text) {
         this.alertMessage = "Entry requires text.";
       } else {
-        this.$store.dispatch("saveEntry", newEntry);
-        this.clearNewEntryDialog();
+        this.$store
+          .dispatch("saveEntry", newEntry)
+          .then(function() {
+            this.clearNewEntryDialog();
+          })
+          .catch(function(message) {
+            this.alertMessage = message;
+          });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
