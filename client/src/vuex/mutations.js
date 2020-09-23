@@ -1,9 +1,11 @@
 module.exports = {
   setSearchString(state, searchString) {
     state.searchString = searchString;
+    state.fetchBy = "searchString";
   },
   setSelectedDate(state, selectedDate) {
     state.selectedDate = selectedDate;
+    state.fetchBy = "date";
   },
   selectGroup(state, group) {
     state.activeGroup = group;
