@@ -35,4 +35,7 @@ module.exports = {
     });
     state.groups = groups;
   },
+  setEntries(state, entries) {
+    state.entries = entries;
+  },
 };
