@@ -54,6 +54,6 @@ export default {
 }
 .sol-logEntry-title {
   width: 100%;
-  background: @mediumColour;
+  background: @lightColour;
 }
 </style>

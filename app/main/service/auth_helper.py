@@ -3,7 +3,6 @@ from ..service.blacklist_service import save_token
 
 
 class Auth:
-
     @staticmethod
     def login_user(data):
         try:
@@ -86,3 +85,6 @@ class Auth:
                 'message': 'Provide a valid auth token.'
             }
             return response_object, 401
+
+
+# If no users exist in the database, create a default admin user

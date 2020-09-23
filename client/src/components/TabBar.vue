@@ -51,6 +51,7 @@ span:hover {
   background: @backgroundColour;
 }
 span.active {
+  border: @veryDarkBorder;
   background: @darkColour;
 }
 span.active:hover {

@@ -34,13 +34,13 @@ span.sol-button {
   margin-left: 2em;
   padding-left: 1em;
   padding-right: 1em;
-  background: @mediumColour;
+  background: @lightColour;
   border: solid;
   border-radius: 0.5em;
-  border-color: @lightColour;
-  border-width: 1px;
+  border: @mediumBorder;
 }
 span.sol-button:hover {
-  background: @lightColour;
+  border: @lightBorder;
+  background: @veryLightColour;
 }
 </style>
