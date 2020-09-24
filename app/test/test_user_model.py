@@ -10,7 +10,6 @@ from app.test.base import BaseTestCase
 class TestUserModel(BaseTestCase):
 
     def test_encode_auth_token(self):
-
         user = User(
             email='test@test.com',
             password='test',

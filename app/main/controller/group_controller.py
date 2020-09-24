@@ -1,8 +1,10 @@
 from flask import request
 from flask_restx import Resource
 
+from app.main.util.decorator import token_required
+
 from ..util.dto import GroupDto
-from ..service.group_service import save_new_group, get_all_groups, get_a_group
+from ..service.group_service import save_new_group, get_all_groups, get_a_group, update_a_group
 
 api = GroupDto.api
 _group = GroupDto.group
@@ -38,3 +40,15 @@ class Group(Resource):
             api.abort(404)
         else:
             return group
+
+    @api.doc('Update a group')
+    @api.marshal_with(_group)
+    @token_required
+    def patch(self):
+        """Update a group"""
+        data = request.json
+        group = get_a_group(data.public_id)
+        if not group:
+            api.abort(404)
+        else:
+            return update_a_group(group, data)

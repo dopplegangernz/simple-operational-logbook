@@ -8,14 +8,6 @@ from app.test.helpers import register_group, register_user, register_user_with_b
 
 
 class TestAuthBlueprint(BaseTestCase):
-    """Test for group registration"""
-
-    def test_group_registration(self):
-        with self.client:
-            response = register_group(self)
-            data = json.loads(response.data.decode())
-            self.assertTrue(data['status'] == 'success')
-            self.assertTrue(data['message'] == 'Successfully registered.')
 
     def test_user_registration(self):
         """ Test for user registration """

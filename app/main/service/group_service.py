@@ -42,6 +42,13 @@ def get_a_group_by_name(group_name):
     return Group.query.filter_by(name=group_name).first()
 
 
+def update_a_group(group, data):
+    group.name = data.name
+    group.description = data.description
+
+    save_changes(group)
+
+
 def save_changes(data):
     db.session.add(data)
     db.session.commit()
