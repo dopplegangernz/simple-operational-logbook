@@ -3,7 +3,9 @@
     <div class="search">
       <label for="searchInput">Search:</label>
       <input v-model="SearchInputValue" id="searchInput" type="text" />
-      <span class="sol-button" v-on:click="setSearchString(SearchInputValue)">Go</span>
+      <span class="sol-button" v-on:click="searchByString(SearchInputValue)"
+        >Go</span
+      >
     </div>
     <span class="buttons">
       <UserPanel v-if="isLoggedIn" />
@@ -13,7 +15,6 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
 import UserPanel from "./UserPanel.vue";
 import LoginDialog from "./LoginDialog.vue";
 
@@ -21,11 +22,11 @@ export default {
   name: "UIBar",
   components: {
     UserPanel,
-    LoginDialog
+    LoginDialog,
   },
   data: function() {
     return {
-      SearchInputValue: this.$store.state.searchString
+      SearchInputValue: null,
     };
   },
   computed: {
@@ -34,11 +35,17 @@ export default {
     },
     isLoggedIn() {
       return this.$store.state.user.username !== null;
-    }
+    },
   },
   methods: {
-    ...mapMutations(["setSearchString"])
-  }
+    searchByString(searchString) {
+      this.$store
+        .dispatch("fetchEntriesBySearchString", searchString)
+        .catch(function(message) {
+          alert(message);
+        });
+    },
+  },
 };
 </script>
 

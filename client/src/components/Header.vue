@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" id="sol-header">
     <div class="logo">
       <img alt="Logo" v-bind:src="Logo" />
     </div>
@@ -53,6 +53,11 @@ export default {
       },
       set(value) {
         this.$store.commit("setSelectedDate", value);
+        this.$store
+          .dispatch("fetchEntriesByDate", value)
+          .catch(function(reason) {
+            alert(reason);
+          });
       },
     },
     Name() {

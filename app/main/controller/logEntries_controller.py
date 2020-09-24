@@ -3,7 +3,7 @@ from flask import request
 from flask_restx import Resource
 
 from ..util.dto import LogEntriesDto
-from ..service.logEntry_service import save_log_entry, get_entries_for_date
+from ..service.logEntry_service import save_log_entry, get_entries_for_date, get_entries_by_subject, get_entries_by_searchString
 
 import datetime
 
@@ -41,11 +41,17 @@ class LogEntryListForDate(Resource):
 class LogEntrySubjectSearch(Resource):
     @ api.doc('Get log entries with a given subject')
     @ api.marshal_with(_logentry)
-    def get(self, public_id):
-        pass
-        """get a logentry given its identifier"""
-        # logentry = get_a_logentry(public_id)
-        # if not logentry:
-        #     api.abort(404)
-        # else:
-        #     return logentry
+    def get(self, subject):
+        """Get log entries with a given subject"""
+        return get_entries_by_subject(subject)
+
+
+@ api.route('/search/string/<searchString>')
+@ api.param('searchString', 'The subject to search for')
+@ api.response(404, 'LogEntry not found.')
+class LogEntryStringSearch(Resource):
+    @ api.doc('Get log entries containing a given string in the subject or text')
+    @ api.marshal_with(_logentry)
+    def get(self, searchString):
+        """Get log entries with a given string"""
+        return get_entries_by_searchString(searchString)

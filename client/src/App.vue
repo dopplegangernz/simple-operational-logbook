@@ -16,14 +16,19 @@ export default {
   components: {
     Footer,
     Header,
-    LogArea
+    LogArea,
   },
   mounted: function() {
     this.$store.commit("defaultUserDetails");
     this.$store.dispatch("fetchGroups").catch(function(reason) {
       alert(reason);
     });
-  }
+    this.$store
+      .dispatch("fetchEntriesByDate", new Date())
+      .catch(function(reason) {
+        alert(reason);
+      });
+  },
 };
 </script>
 
