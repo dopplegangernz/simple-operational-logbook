@@ -143,6 +143,9 @@ module.exports = {
         });
     });
   },
+  updateUser(context, userDetails) {
+    context.commit("updateUser", userDetails);
+  },
 };
 
 function previousMidnight(dateObj) {

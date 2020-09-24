@@ -38,4 +38,9 @@ module.exports = {
   setEntries(state, entries) {
     state.entries = entries;
   },
+  updateUser(state, userDetails) {
+    state.user.username = userDetails.username;
+    state.user.email = userDetails.email;
+    state.user.group = userDetails.group;
+  },
 };
