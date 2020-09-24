@@ -3,11 +3,7 @@
     <div class="buttonBar">
       <NewLogEntryDialog v-if="isLoggedIn" />
     </div>
-    <LogEntry
-      v-for="entry in visibleEntries"
-      :key="entry.id"
-      :entryData="entry"
-    />
+    <LogEntry v-for="entry in visibleEntries" :key="entry.id" :entryData="entry" />
   </div>
 </template>
 
@@ -19,7 +15,7 @@ export default {
   name: "LogArea",
   components: {
     LogEntry,
-    NewLogEntryDialog,
+    NewLogEntryDialog
   },
   computed: {
     logAreaHeight() {
@@ -54,12 +50,12 @@ export default {
           return entry.group_name === activeGroup;
         });
       }
-    },
+    }
   },
   mounted: function() {
     window.onresize = setLogAreaHeight;
     setLogAreaHeight();
-  },
+  }
 };
 
 function setLogAreaHeight() {
