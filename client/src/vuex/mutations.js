@@ -11,7 +11,7 @@ module.exports = {
     state.activeGroup = group;
   },
   saveEntry(state, newEntry) {
-    state.entries.push(newEntry);
+    state.entries.unshift(newEntry);
   },
   setUserDetails(state, userDetails) {
     state.user.username = userDetails.username;
@@ -39,5 +39,10 @@ module.exports = {
   },
   setEntries(state, entries) {
     state.entries = entries;
+  },
+  updateUser(state, userDetails) {
+    state.user.username = userDetails.username;
+    state.user.email = userDetails.email;
+    state.user.group = userDetails.group;
   },
 };

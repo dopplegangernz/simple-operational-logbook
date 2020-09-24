@@ -32,14 +32,11 @@ def get_an_entry(public_id):
     return LogEntry.query.filter_by(public_id=public_id).first()
 
 
-def get_entries_for_date(date):
-    dayStart = utilFunctions.startOfLocalDay(date)
-    dayEnd = utilFunctions.endOfLocalDay(date)
-
+def get_entries_for_time_range(fromdate, toDate):
     return LogEntry.query.filter(
         db.and_(
-            LogEntry.timestamp >= dayStart,
-            LogEntry.timestamp <= dayEnd
+            LogEntry.timestamp >= fromdate,
+            LogEntry.timestamp <= toDate
         )
     ).order_by(LogEntry.timestamp.desc()).all()
 
