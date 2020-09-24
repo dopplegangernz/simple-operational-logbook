@@ -53,6 +53,11 @@ export default {
       },
       set(value) {
         this.$store.commit("setSelectedDate", value);
+        this.$store
+          .dispatch("fetchEntriesByDate", value)
+          .catch(function(reason) {
+            alert(reason);
+          });
       },
     },
     Name() {

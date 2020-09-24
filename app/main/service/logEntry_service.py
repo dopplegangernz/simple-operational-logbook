@@ -45,11 +45,19 @@ def get_entries_for_date(date):
 
 
 def get_entries_by_subject(subject):
-    return LogEntry.query.filter_by(subject=subject)
+
+    return LogEntry.query.filter_by(subject=subject).all()
 
 
-def search_entries(searchString):
-    pass
+def get_entries_by_searchString(searchString):
+    searchString = "%" + searchString + "%"
+
+    return LogEntry.query.filter(
+        db.or_(
+            LogEntry.subject.like(searchString),
+            LogEntry.text.like(searchString)
+        )
+    ).all()
 
 
 def save_changes(data):

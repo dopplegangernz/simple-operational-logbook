@@ -96,13 +96,14 @@ export default {
       } else if (!newEntry.text) {
         this.alertMessage = "Entry requires text.";
       } else {
+        const self = this;
         this.$store
           .dispatch("saveEntry", newEntry)
           .then(function() {
-            this.clearNewEntryDialog();
+            self.clearNewEntryDialog();
           })
           .catch(function(message) {
-            this.alertMessage = message;
+            self.alertMessage = message;
           });
       }
     },

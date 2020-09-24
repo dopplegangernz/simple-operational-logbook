@@ -94,4 +94,48 @@ module.exports = {
         });
     });
   },
+  fetchEntriesBySubject(context, subject) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/entries/search/subject/" + subject, axiosConfig)
+        .then(function(response) {
+          const data = response.data;
+
+          console.log(data);
+
+          if (response.status === 200) {
+            data.forEach((element) => {
+              element.timestamp = new Date(element.timestamp);
+            });
+
+            context.commit("setEntries", data);
+            context.commit("setSelectedDate", null);
+            resolve();
+          } else {
+            reject(data.message);
+          }
+        });
+    });
+  },
+  fetchEntriesBySearchString(context, searchString) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/entries/search/string/" + searchString, axiosConfig)
+        .then(function(response) {
+          const data = response.data;
+
+          if (response.status === 200) {
+            data.forEach((element) => {
+              element.timestamp = new Date(element.timestamp);
+            });
+
+            context.commit("setEntries", data);
+            context.commit("setSelectedDate", null);
+            resolve();
+          } else {
+            reject(data.message);
+          }
+        });
+    });
+  },
 };
