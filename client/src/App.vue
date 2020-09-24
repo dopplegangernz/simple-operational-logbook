@@ -24,7 +24,7 @@ export default {
       alert(reason);
     });
     this.$store
-      .dispatch("fetchEntriesByDate", this.$store.state.selectedDate)
+      .dispatch("fetchEntriesByDate", new Date())
       .catch(function(reason) {
         alert(reason);
       });

@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" id="sol-header">
     <div class="logo">
       <img alt="Logo" v-bind:src="Logo" />
     </div>
