@@ -18,7 +18,7 @@ Vue.use(Loading);
 const store = new Vuex.Store({
   state: {
     appName: "Simple Operational Logbook",
-    logo: "logo.png",
+    logo: "sol-logo.svg",
     user: {
       username: null,
       email: null,
