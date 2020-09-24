@@ -9,7 +9,7 @@ module.exports = {
     state.activeGroup = group;
   },
   saveEntry(state, newEntry) {
-    state.entries.push(newEntry);
+    state.entries.unshift(newEntry);
   },
   setUserDetails(state, userDetails) {
     state.user.username = userDetails.username;

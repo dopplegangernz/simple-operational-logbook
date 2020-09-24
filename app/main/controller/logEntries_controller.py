@@ -14,15 +14,15 @@ api = LogEntriesDto.api
 _logentry = LogEntriesDto.log_entries
 
 
-@api.route('/')
-@api.response(404, 'No entries found.')
-class LogEntryListForToday(Resource):
-    @api.doc('log_entries_from_today')
-    @api.marshal_list_with(_logentry)
-    def get(self):
-        """List of log entries from today"""
+# @api.route('/')
+# @api.response(404, 'No entries found.')
+# class LogEntryListForToday(Resource):
+#     @api.doc('log_entries_from_today')
+#     @api.marshal_list_with(_logentry)
+#     def get(self):
+#         """List of log entries from today"""
 
-        return get_entries_for_date(datetime.datetime.now(datetime.timezone.utc))
+#         return get_entries_for_date(datetime.datetime.now(datetime.timezone.utc))
 
 
 @ api.route('/<fromTimestamp>/<toTimestamp>')

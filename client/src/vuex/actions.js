@@ -77,13 +77,18 @@ module.exports = {
   fetchEntriesByDate(context, selectedDate) {
     return new Promise((resolve, reject) => {
       axios
-        .get("/entries/" + selectedDate.toISOString().slice(0, 10), axiosConfig)
+        .get(
+          `/entries/${previousMidnight(selectedDate)}/${followingMidnight(
+            selectedDate
+          )}`,
+          axiosConfig
+        )
         .then(function(response) {
           const data = response.data;
 
           if (response.status === 200) {
             data.forEach((element) => {
-              element.timestamp = new Date(element.timestamp);
+              element.timestamp = new Date(element.timestamp + "Z");
             });
 
             context.commit("setEntries", data);
@@ -105,7 +110,7 @@ module.exports = {
 
           if (response.status === 200) {
             data.forEach((element) => {
-              element.timestamp = new Date(element.timestamp);
+              element.timestamp = new Date(element.timestamp + "Z");
             });
 
             context.commit("setEntries", data);
@@ -126,7 +131,7 @@ module.exports = {
 
           if (response.status === 200) {
             data.forEach((element) => {
-              element.timestamp = new Date(element.timestamp);
+              element.timestamp = new Date(element.timestamp + "Z");
             });
 
             context.commit("setEntries", data);
@@ -139,3 +144,44 @@ module.exports = {
     });
   },
 };
+
+function previousMidnight(dateObj) {
+  const midnight = new Date(dateObj.getTime());
+  midnight.setHours(0);
+  midnight.setMinutes(0);
+  midnight.setSeconds(0);
+  midnight.setMilliseconds(0);
+
+  return toTimeStamp(midnight);
+}
+function followingMidnight(dateObj) {
+  const midnight = new Date(dateObj.getTime());
+  midnight.setHours(23);
+  midnight.setMinutes(59);
+  midnight.setSeconds(59);
+  midnight.setMilliseconds(999);
+
+  return toTimeStamp(midnight);
+}
+function toTimeStamp(dateObj) {
+  const year = dateObj.getUTCFullYear();
+  const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = dateObj
+    .getUTCDate()
+    .toString()
+    .padStart(2, "0");
+  const hour = dateObj
+    .getUTCHours()
+    .toString()
+    .padStart(2, "0");
+  const minutes = dateObj
+    .getUTCMinutes()
+    .toString()
+    .padStart(2, "0");
+  const seconds = dateObj
+    .getUTCSeconds()
+    .toString()
+    .padStart(2, "0");
+
+  return `${year}-${month}-${day}T${hour}:${minutes}:${seconds}Z`;
+}
