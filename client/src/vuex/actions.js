@@ -114,7 +114,6 @@ module.exports = {
             });
 
             context.commit("setEntries", data);
-            context.commit("setSelectedDate", null);
             resolve();
           } else {
             reject(data.message);
@@ -135,7 +134,6 @@ module.exports = {
             });
 
             context.commit("setEntries", data);
-            context.commit("setSelectedDate", null);
             resolve();
           } else {
             reject(data.message);

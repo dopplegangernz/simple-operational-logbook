@@ -1,5 +1,5 @@
 <template>
-  <span class="sol-userPanel" v-on:click="showUserPanel">
+  <span class="sol-userPanel linkText" v-on:click="showUserPanel">
     {{ Name }}
     <modal
       name="userPanel"
@@ -20,34 +20,40 @@
             <th>Email:</th>
             <td>
               <input v-if="editMode" type="text" v-model="email" />
-              <span v-else> {{ email }}</span>
+              <span v-else>{{ email }}</span>
             </td>
           </tr>
           <tr>
             <th>Username:</th>
             <td>
               <input v-if="editMode" type="text" v-model="username" />
-              <span v-else>{{ username }} </span>
+              <span v-else>{{ username }}</span>
             </td>
           </tr>
           <tr>
             <th>Group:</th>
             <td>
               <select v-if="editMode" v-model="selectedGroup">
-                <option v-for="group in Groups" :key="group.name">{{
+                <option v-for="group in Groups" :key="group.name">
+                  {{
                   group.name
-                }}</option>
+                  }}
+                </option>
               </select>
-              <span v-else> {{ selectedGroup }} </span>
+              <span v-else>{{ selectedGroup }}</span>
             </td>
           </tr>
           <tr v-if="editMode">
             <th>Password:</th>
-            <td><input type="password" v-model="password1" /></td>
+            <td>
+              <input type="password" v-model="password1" />
+            </td>
           </tr>
           <tr v-if="editMode">
             <th>Confirm password:</th>
-            <td><input type="password" v-model="password2" /></td>
+            <td>
+              <input type="password" v-model="password2" />
+            </td>
           </tr>
           <tr></tr>
         </table>
@@ -56,9 +62,7 @@
       <div class="buttons">
         <span class="sol-button" v-on:click="clearUserPanel()">Close</span>
 
-        <span class="sol-button" v-if="editMode" v-on:click="updateUser"
-          >Save</span
-        >
+        <span class="sol-button" v-if="editMode" v-on:click="updateUser">Save</span>
         <span class="sol-button" v-else v-on:click="editUser">Edit</span>
       </div>
     </modal>
@@ -153,9 +157,6 @@ export default {
 <style scoped lang="less">
 .modalBox {
   border: @mediumBorder;
-}
-span.sol-userPanel {
-  color: @linkcolour;
 }
 
 span.sol-userPanel div {

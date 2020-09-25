@@ -16,7 +16,7 @@ export default {
   components: {
     Footer,
     Header,
-    LogArea,
+    LogArea
   },
   mounted: function() {
     this.$store.commit("defaultUserDetails");
@@ -28,7 +28,7 @@ export default {
       .catch(function(reason) {
         alert(reason);
       });
-  },
+  }
 };
 </script>
 
@@ -49,9 +49,15 @@ span.sol-button {
   border: solid;
   border-radius: 0.5em;
   border: @mediumBorder;
+  cursor: pointer;
 }
 span.sol-button:hover {
   border: @lightBorder;
   background: @veryLightColour;
+}
+.linkText {
+  color: @linkcolour;
+  cursor: pointer;
+  text-decoration: underline;
 }
 </style>

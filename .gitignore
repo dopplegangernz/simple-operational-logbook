@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Random crap
+.DS_Store
+
 # C extensions
 *.so
 

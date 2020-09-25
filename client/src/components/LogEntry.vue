@@ -7,9 +7,9 @@
       </div>
       <div class="sol-logEntry-author">{{ entryData.author_name }}</div>
     </div>
-    <div class="sol-logEntry-content ">
+    <div class="sol-logEntry-content">
       <div class="sol-logEntry-title">
-        <span v-if="ActiveGroup === 'All'"> [{{ entryData.group_name }}]</span>
+        <span v-if="ActiveGroup === 'All'">[{{ entryData.group_name }}]</span>
         {{ entryData.subject }}
         <svg
           v-on:click="searchBySubject"
@@ -21,20 +21,11 @@
           <g>
             <title>Magnifying glass</title>
             <ellipse ry="6" rx="6" cy="8" cx="8" stroke-width="2" fill="none" />
-            <line
-              stroke-linecap="round"
-              y2="18"
-              x2="18"
-              y1="14"
-              x1="14"
-              stroke-width="3"
-            />
+            <line stroke-linecap="round" y2="18" x2="18" y1="14" x1="14" stroke-width="3" />
           </g>
         </svg>
       </div>
-      <div class="sol-logEntry-text">
-        {{ entryData.text }}
-      </div>
+      <div class="sol-logEntry-text">{{ entryData.text }}</div>
     </div>
   </div>
 </template>
@@ -45,7 +36,7 @@ export default {
   computed: {
     ActiveGroup() {
       return this.$store.state.activeGroup;
-    },
+    }
   },
   methods: {
     searchBySubject() {
@@ -54,11 +45,11 @@ export default {
         .catch(function(message) {
           alert(message);
         });
-    },
+    }
   },
   props: {
-    entryData: Object,
-  },
+    entryData: Object
+  }
 };
 </script>
 
@@ -89,5 +80,6 @@ export default {
   stroke: @darkColour;
   position: absolute;
   margin-left: @mediumPadding;
+  cursor: pointer;
 }
 </style>
