@@ -60,4 +60,31 @@ span.sol-button:hover {
   cursor: pointer;
   text-decoration: underline;
 }
+div.tabBar {
+  padding-top: @mediumPadding;
+  border-bottom: @mediumBorder;
+  width: 100%;
+  background: @darkColour;
+}
+span.tab {
+  border: @mediumBorder;
+  background: @mediumColour;
+  margin-left: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  cursor: pointer;
+}
+span.tab:hover {
+  background: @backgroundColour;
+}
+span.tab.active {
+  border: @veryDarkBorder;
+  background: @darkColour;
+}
+span.tab.active:hover {
+  background: @veryDarkColour;
+  color: @backgroundColour;
+}
 </style>

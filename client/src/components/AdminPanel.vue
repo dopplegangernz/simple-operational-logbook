@@ -1,23 +1,37 @@
 <template>
-  <span class="sol-adminPanel" v-on:click="showadminPanel">
-    {{ Name }}
+  <span class="sol-adminPanel sol-button" v-on:click="showAdminPanel">
+    Admin Panel
     <modal
       name="adminPanel"
-      :resizable="true"
       draggable=".dragHandle"
       :focusTrap="true"
       :clickToClose="false"
       classes="modalBox"
     >
       <div class="title dragHandle">
-        <span>User information for {{ Name }}</span>
-        <span class="sol-button" v-on:click="hideadminPanel()">x</span>
+        <span>Logbook Administration</span>
+        <span class="sol-button" v-on:click="hideAdminPanel">x</span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <div class="tabBar">
+          <span
+            class="tab"
+            v-bind:class="{active: activeTab === 'Users'}"
+            v-on:click="setActiveTab('Users')"
+          >Users</span>
+          <span
+            class="tab"
+            v-bind:class="{active: activeTab === 'Groups'}"
+            v-on:click="setActiveTab('Groups')"
+          >Groups</span>
+        </div>
+        <div id="Users" class="tabContent">Here be users</div>
+        <div id="Groups" class="tabContent" style="display:none">Here be groups</div>
+      </div>
       <div class="alertMessage" v-if="alertMessage">{{ alertMessage }}</div>
       <div class="buttons">
-        <span class="sol-button" v-on:click="clearadminPanel()">Close</span>
-        <span class="sol-button" v-on:click="updateUser">Save</span>
+        <span class="sol-button" v-on:click="clearAdminPanel">Close</span>
+        <span class="sol-button" v-on:click="alert('hi')">Save</span>
       </div>
     </modal>
   </span>
@@ -27,55 +41,38 @@
 export default {
   name: "adminPanel",
   data: function() {
-    return {};
+    return {
+      alertMessage: null,
+      activeTab: "Users"
+    };
   },
-  computed: {
-    Name() {
-      return this.$store.state.user.username;
-    },
-    Groups() {
-      return this.$store.state.groups.filter(function(group) {
-        return group.name !== "All";
-      });
-    }
-  },
+  computed: {},
   methods: {
-    showadminPanel() {
+    setActiveTab(tabName) {
+      if (tabName) {
+        this.activeTab = tabName;
+      } else {
+        tabName = this.activeTab;
+      }
+
+      const contentDivs = document.getElementsByClassName("tabContent");
+
+      for (let i = 0; i < contentDivs.length; i++) {
+        contentDivs[i].style.display = "none";
+      }
+
+      document.getElementById(tabName).style.display = "block";
+    },
+    showAdminPanel() {
       this.$modal.show("adminPanel");
     },
-    hideadminPanel() {
+    hideAdminPanel() {
       this.$modal.hide("adminPanel");
     },
-    clearadminPanel() {
+    clearAdminPanel() {
       // Reset the panel to default
 
       this.$modal.hide("adminPanel");
-    },
-    updateGroup() {
-      const revisedGroup = {
-        username: this.username,
-        email: this.email,
-        group: this.selectedGroup.name
-      };
-      if (this.password1) {
-        if (this.password1 !== this.password2) {
-          this.alertMessage =
-            "Passwords must match. (If you're not intending to update your password, just clear the password fields)";
-          return;
-        } else {
-          revisedUser.password = this.password1;
-        }
-      }
-
-      const self = this;
-      this.$store
-        .dispatch("updateUser", revisedUser)
-        .then(function() {
-          self.clearadminPanel();
-        })
-        .catch(function(message) {
-          self.alertMessage = message;
-        });
     }
   }
 };
@@ -86,13 +83,7 @@ export default {
 .modalBox {
   border: @mediumBorder;
 }
-span.sol-adminPanel {
-  color: @linkcolour;
-}
 
-span.sol-adminPanel div {
-  color: @textColour;
-}
 div.title {
   width: 100%;
   text-align: center;

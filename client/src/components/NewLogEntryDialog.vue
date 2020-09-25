@@ -7,6 +7,8 @@
       :focusTrap="true"
       :clickToClose="false"
       classes="modalBox"
+      width="600px"
+      height="350px"
     >
       <div class="title dragHandle">
         <span>New Log Entry</span>
@@ -18,9 +20,11 @@
             <th>Group:</th>
             <td>
               <select v-model="selectedGroup">
-                <option v-for="group in Groups" :key="group.name">{{
+                <option v-for="group in Groups" :key="group.name">
+                  {{
                   group.name
-                }}</option>
+                  }}
+                </option>
               </select>
             </td>
           </tr>

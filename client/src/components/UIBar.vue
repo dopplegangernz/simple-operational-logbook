@@ -22,6 +22,7 @@
       <span class="sol-button" v-on:click="searchByString(SearchInputValue)">Go</span>
     </div>
     <span class="buttons">
+      <AdminPanel v-if="isAdmin" />
       <UserPanel v-if="isLoggedIn" />
       <LoginDialog />
     </span>
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import AdminPanel from "./AdminPanel.vue";
 import UserPanel from "./UserPanel.vue";
 import LoginDialog from "./LoginDialog.vue";
 
@@ -36,7 +38,8 @@ export default {
   name: "UIBar",
   components: {
     UserPanel,
-    LoginDialog
+    LoginDialog,
+    AdminPanel
   },
   data: function() {
     return {
