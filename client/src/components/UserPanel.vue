@@ -3,11 +3,12 @@
     {{ Name }}
     <modal
       name="userPanel"
-      :resizable="true"
       draggable=".dragHandle"
       :focusTrap="true"
       :clickToClose="false"
       classes="modalBox"
+      width="330px"
+      height="220px"
     >
       <div class="title dragHandle">
         <span>User information for {{ Name }}</span>
@@ -17,27 +18,34 @@
         <table>
           <tr>
             <th>Email:</th>
-            <td><input type="text" v-model="email" /></td>
+            <td>
+              <input v-if="editMode" type="text" v-model="email" />
+              <span v-else> {{ email }}</span>
+            </td>
           </tr>
           <tr>
             <th>Username:</th>
-            <td><input type="text" v-model="username" /></td>
+            <td>
+              <input v-if="editMode" type="text" v-model="username" />
+              <span v-else>{{ username }} </span>
+            </td>
           </tr>
           <tr>
             <th>Group:</th>
             <td>
-              <select v-model="selectedGroup">
+              <select v-if="editMode" v-model="selectedGroup">
                 <option v-for="group in Groups" :key="group.name">{{
                   group.name
                 }}</option>
               </select>
+              <span v-else> {{ selectedGroup }} </span>
             </td>
           </tr>
-          <tr>
+          <tr v-if="editMode">
             <th>Password:</th>
             <td><input type="password" v-model="password1" /></td>
           </tr>
-          <tr>
+          <tr v-if="editMode">
             <th>Confirm password:</th>
             <td><input type="password" v-model="password2" /></td>
           </tr>
@@ -47,7 +55,11 @@
       <div class="alertMessage" v-if="alertMessage">{{ alertMessage }}</div>
       <div class="buttons">
         <span class="sol-button" v-on:click="clearUserPanel()">Close</span>
-        <span class="sol-button" v-on:click="updateUser">Save</span>
+
+        <span class="sol-button" v-if="editMode" v-on:click="updateUser"
+          >Save</span
+        >
+        <span class="sol-button" v-else v-on:click="editUser">Edit</span>
       </div>
     </modal>
   </span>
@@ -58,13 +70,14 @@ export default {
   name: "UserPanel",
   data: function() {
     return {
+      editMode: false,
       alertMessage: null,
       username: this.$store.state.user.username,
       password: null,
       email: this.$store.state.user.email,
       selectedGroup: this.$store.state.user.group,
       password1: null,
-      password2: null,
+      password2: null
     };
   },
   computed: {
@@ -75,9 +88,12 @@ export default {
       return this.$store.state.groups.filter(function(group) {
         return group.name !== "All";
       });
-    },
+    }
   },
   methods: {
+    editUser() {
+      this.editMode = true;
+    },
     showUserPanel() {
       this.$modal.show("userPanel");
     },
@@ -86,6 +102,7 @@ export default {
     },
     clearUserPanel() {
       // Reset the panel to default
+      this.editMode = false;
       this.username = this.$store.state.user.username;
       this.password = null;
       this.email = this.$store.state.user.email;
@@ -94,10 +111,12 @@ export default {
     },
     updateUser() {
       const revisedUser = {
+        id: this.$store.state.user.id,
         username: this.username,
         email: this.email,
-        group: this.selectedGroup.name,
+        group_name: this.selectedGroup
       };
+
       if (this.password1) {
         if (this.password1 !== this.password2) {
           this.alertMessage =
@@ -125,8 +144,8 @@ export default {
         .catch(function(message) {
           self.alertMessage = message;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

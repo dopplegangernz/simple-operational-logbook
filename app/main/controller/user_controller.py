@@ -1,9 +1,10 @@
 from flask import request
 from flask_restx import Resource
 
-from app.main.util.decorator import admin_token_required
+from app.main.util.decorator import admin_token_required, token_required
 from ..util.dto import UserDto
-from ..service.user_service import save_new_user, get_all_users, get_a_user
+from ..service.user_service import save_new_user, get_all_users, get_a_user, update_a_user
+from ..service.group_service import get_a_group_by_name
 
 api = UserDto.api
 _user = UserDto.user
@@ -25,6 +26,27 @@ class UserList(Resource):
         """Creates a new User """
         data = request.json
         return save_new_user(data=data)
+
+    @api.doc('Update a user')
+    @api.marshal_with(_user)
+    @token_required
+    def patch(self):
+        """Update a user"""
+        data = request.json
+        user = get_a_user(data['id'])
+
+        group = get_a_group_by_name(data['group_name'])
+
+        if not user:
+            api.abort(404, "No such user")
+        elif not group:
+            api.abort(404, "Not a valid group")
+        else:
+            if request.userData['user_id'] == user.id or request.userData['admin'] == True:
+                return update_a_user(user, group, data)
+            else:
+                api.abort(
+                    403, message="You do not have permission to update this user")
 
 
 @api.route('/<public_id>')

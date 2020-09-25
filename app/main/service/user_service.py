@@ -63,6 +63,17 @@ def generate_token(user):
         return response_object, 401
 
 
+def update_a_user(user, group, userDetails):
+    user.email = userDetails['email']
+    user.username = userDetails['username']
+    user.group_id = group.id
+
+    if("password" in userDetails):
+        user.password = userDetails['password']
+
+    save_changes(user)
+
+
 def save_changes(data):
     db.session.add(data)
     db.session.commit()

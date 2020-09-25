@@ -144,7 +144,20 @@ module.exports = {
     });
   },
   updateUser(context, userDetails) {
-    context.commit("updateUser", userDetails);
+    return new Promise((resolve, reject) => {
+      axios.patch("/user/", userDetails, axiosConfig).then(function(response) {
+        const data = response.data;
+        const status = response.status;
+
+        console.log(response);
+        if (status === 200) {
+          context.commit("updateUser", userDetails);
+          resolve();
+        } else {
+          reject(data.message);
+        }
+      });
+    });
   },
 };
 

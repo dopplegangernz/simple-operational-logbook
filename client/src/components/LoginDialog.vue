@@ -1,10 +1,11 @@
 <template>
   <span class="sol-loginDialog">
-    <span class="sol-button" v-if="isLoggedIn" v-on:click="processLogout">Log out</span>
+    <span class="sol-button" v-if="isLoggedIn" v-on:click="processLogout"
+      >Log out</span
+    >
     <span class="sol-button" v-else v-on:click="showLoginDialog">Log in</span>
     <modal
       name="loginDialog"
-      :resizable="true"
       draggable=".dragHandle"
       :focusTrap="true"
       :clickToClose="false"

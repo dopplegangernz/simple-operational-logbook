@@ -3,7 +3,6 @@
     Create new entry
     <modal
       name="newEntryDialog"
-      :resizable="true"
       draggable=".dragHandle"
       :focusTrap="true"
       :clickToClose="false"
@@ -57,7 +56,7 @@ export default {
           : this.$store.state.activeGroup,
       subject: null,
       text: null,
-      alertMessage: null,
+      alertMessage: null
     };
   },
   computed: {
@@ -65,7 +64,7 @@ export default {
       return this.$store.state.groups.filter(function(group) {
         return group.name !== "All";
       });
-    },
+    }
   },
   methods: {
     showNewEntryDialog() {
@@ -88,7 +87,7 @@ export default {
       const newEntry = {
         group_name: this.selectedGroup,
         subject: this.subject,
-        text: this.text,
+        text: this.text
       };
 
       if (!newEntry.subject) {
@@ -106,8 +105,8 @@ export default {
             self.alertMessage = message;
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
