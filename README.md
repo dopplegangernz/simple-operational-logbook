@@ -30,8 +30,11 @@ Bear in mind that this will drop any existing database, so use with extreme caut
 
 ### Viewing the app
 
-    Open the following url on your browser to view swagger documentation
+    Open the following url on your browser to view client
     http://127.0.0.1:5000/
+
+    Or the following to browse the API's swagger documentation
+    http://127.0.0.1:5000/api
 
 ### Using Postman
 
@@ -39,9 +42,6 @@ Bear in mind that this will drop any existing database, so use with extreme caut
 
     Key: Authorization
     Value: "token_generated_during_login"
-
-    For testing authorization, url for getting all user requires an admin token while url for getting a single
-    user by public_id requires just a regular authentication.
 
 ### Full description and guide for the underlying flash-restx
 
