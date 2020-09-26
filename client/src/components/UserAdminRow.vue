@@ -78,6 +78,7 @@ export default {
     return {
       editMode: false,
       candidateUser: {
+        id: this.userData.id,
         username: this.userData.username,
         email: this.userData.email,
         group: this.userData.group,
@@ -99,7 +100,7 @@ export default {
     saveChanges: function() {
       const self = this;
       this.$store
-        .dispatch("updateUser", this.userData)
+        .dispatch("updateUser", this.candidateUser)
         .then(function() {
           self.editMode = false;
           self.userData.username = self.candidateUser.username;

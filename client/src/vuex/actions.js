@@ -78,7 +78,10 @@ module.exports = {
         const data = response.data;
 
         if (response.status === 200) {
-          resolve(data.data);
+          const userDetails = data.data;
+
+          userDetails.forEach(processUserIn);
+          resolve(userDetails);
         } else {
           reject(data.message);
         }
@@ -164,6 +167,7 @@ module.exports = {
   },
   updateUser(context, userDetails) {
     return new Promise((resolve, reject) => {
+      userDetails = processUserOut(userDetails);
       axios.patch("/user/", userDetails, axiosConfig).then(function(response) {
         const data = response.data;
         const status = response.status;
@@ -177,7 +181,30 @@ module.exports = {
       });
     });
   },
+  createUser(context, userDetails) {
+    userDetails = processUserOut(userDetails);
+    return new Promise((resolve, reject) => {
+      axios.post("/user/", userDetails, axiosConfig).then(function(response) {
+        const data = response.data;
+        const status = response.status;
+
+        if (status === 201) {
+          resolve(data);
+        } else {
+          reject(data.message);
+        }
+      });
+    });
+  },
 };
+function processUserIn(userDetails) {
+  userDetails.isAdmin = userDetails.isAdmin === "True";
+  return userDetails;
+}
+function processUserOut(userDetails) {
+  userDetails.isAdmin = userDetails.isAdmin ? "True" : "False";
+  return userDetails;
+}
 function convertDates(entriesArray) {
   return entriesArray.forEach((element) => {
     element.timestamp = new Date(element.timestamp + "Z");

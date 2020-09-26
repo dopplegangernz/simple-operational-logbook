@@ -7,15 +7,14 @@ from app.main.model.group import Group
 
 
 def save_new_user(data):
-    groupPublicId = data['group_id']
-    group = Group.query.filter_by(public_id=groupPublicId).first()
+    group = Group.query.filter_by(name=data['group']).first()
 
     user = User.query.filter_by(email=data['email']).first()
 
     if not group:
         response_object = {
             'status': 'fail',
-            'message': '{} is not a valid group id'.format(groupPublicId)
+            'message': '{} is not a valid group name'.format(groupPublicId)
         }
         return response_object, 409
     elif not user:

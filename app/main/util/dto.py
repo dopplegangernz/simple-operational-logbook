@@ -8,7 +8,7 @@ class UserDto:
         'username': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, description='user password'),
         'group': fields.String(attribute='group.name', required=True, description='Name of user\'s default group'),
-        'public_id': fields.String(description='user Identifier'),
+        'id': fields.String(attribute='public_id', description='user Identifier'),
         'isAdmin': fields.String(attribute='admin', description='Is the user and admin?'),
     })
 
