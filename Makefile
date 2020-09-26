@@ -11,7 +11,8 @@ install:
 	. venv/bin/activate; \
 	pip3 install -r requirements.txt; \
 	. cd client; \
-	npm install;
+	npm install; \
+	npm run build;
 
 tests:
 	. venv/bin/activate; \
@@ -27,4 +28,4 @@ db-init:
 	. rm -rf migrations; \
 	python3 manage.py db init; \
 	python3 manage.py db migrate --message 'initial database migration'; \
-	python3 manage.py db upgrade
+	python3 manage.py db upgrade;
