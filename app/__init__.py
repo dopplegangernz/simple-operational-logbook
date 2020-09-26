@@ -18,8 +18,8 @@ api = Api(blueprint,
           )
 
 
-api.add_namespace(group_ns, path='/group')
-api.add_namespace(user_ns, path='/user')
-api.add_namespace(auth_ns, path='/auth')
-api.add_namespace(logEntries_ns, path='/entries')
-api.add_namespace(logEntry_ns, path='/entry')
+api.add_namespace(group_ns, path='/api/group')
+api.add_namespace(user_ns, path='/api/user')
+api.add_namespace(auth_ns, path='/api/auth')
+api.add_namespace(logEntries_ns, path='/api/entries')
+api.add_namespace(logEntry_ns, path='/api/entry')
