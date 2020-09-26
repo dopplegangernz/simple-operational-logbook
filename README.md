@@ -4,7 +4,7 @@ This is based off the most excellent Flask-RestX-Boilerplate
 
 ### Terminal commands
 
-Note: make sure you have `pip` and `virtualenv` installed.
+Note: make sure you have `pip`, `virtualenv`, and `npm` installed.
 
     Initial installation: make install
 
