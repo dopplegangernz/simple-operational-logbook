@@ -4,26 +4,27 @@
       <div class="sol-logEntry-timestamp">
         {{ entryData.timestamp.toLocaleDateString() }}
         {{ entryData.timestamp.toLocaleTimeString() }}
+        <SearchIcon
+          action="fetchEntriesByDate"
+          v-bind:payload="entryData.timestamp"
+        />
       </div>
-      <div class="sol-logEntry-author">{{ entryData.author_name }}</div>
+      <div class="sol-logEntry-author">
+        {{ entryData.author_name }}
+        <SearchIcon
+          action="fetchEntriesByAuthor"
+          v-bind:payload="entryData.author_name"
+        />
+      </div>
     </div>
     <div class="sol-logEntry-content">
       <div class="sol-logEntry-title">
         <span v-if="ActiveGroup === 'All'">[{{ entryData.group_name }}]</span>
         {{ entryData.subject }}
-        <svg
-          v-on:click="searchBySubject"
-          class="magnifyingGlass"
-          width="18"
-          height="18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g>
-            <title>Magnifying glass</title>
-            <ellipse ry="6" rx="6" cy="8" cx="8" stroke-width="2" fill="none" />
-            <line stroke-linecap="round" y2="18" x2="18" y1="14" x1="14" stroke-width="3" />
-          </g>
-        </svg>
+        <SearchIcon
+          action="fetchEntriesBySubject"
+          v-bind:payload="entryData.subject"
+        />
       </div>
       <div class="sol-logEntry-text">{{ entryData.text }}</div>
     </div>
@@ -31,20 +32,14 @@
 </template>
 
 <script>
+import SearchIcon from "./SearchIcon.vue";
+
 export default {
   name: "LogEntry",
+  components: { SearchIcon },
   computed: {
     ActiveGroup() {
       return this.$store.state.activeGroup;
-    }
-  },
-  methods: {
-    searchBySubject() {
-      this.$store
-        .dispatch("fetchEntriesBySubject", this.entryData.subject)
-        .catch(function(message) {
-          alert(message);
-        });
     }
   },
   props: {
@@ -75,11 +70,5 @@ export default {
 .sol-logEntry-title {
   width: 100%;
   background: @lightColour;
-}
-.magnifyingGlass {
-  stroke: @darkColour;
-  position: absolute;
-  margin-left: @mediumPadding;
-  cursor: pointer;
 }
 </style>

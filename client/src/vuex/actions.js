@@ -87,9 +87,7 @@ module.exports = {
           const data = response.data;
 
           if (response.status === 200) {
-            data.forEach((element) => {
-              element.timestamp = new Date(element.timestamp + "Z");
-            });
+            convertDates(data);
 
             context.commit("setEntries", data);
             resolve();
@@ -109,9 +107,27 @@ module.exports = {
           console.log(data);
 
           if (response.status === 200) {
-            data.forEach((element) => {
-              element.timestamp = new Date(element.timestamp + "Z");
-            });
+            convertDates(data);
+
+            context.commit("setEntries", data);
+            resolve();
+          } else {
+            reject(data.message);
+          }
+        });
+    });
+  },
+  fetchEntriesByAuthor(context, author_name) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/entries/search/author/" + author_name, axiosConfig)
+        .then(function(response) {
+          const data = response.data;
+
+          console.log(data);
+
+          if (response.status === 200) {
+            convertDates(data);
 
             context.commit("setEntries", data);
             resolve();
@@ -129,9 +145,7 @@ module.exports = {
           const data = response.data;
 
           if (response.status === 200) {
-            data.forEach((element) => {
-              element.timestamp = new Date(element.timestamp + "Z");
-            });
+            convertDates(data);
 
             context.commit("setEntries", data);
             resolve();
@@ -158,7 +172,11 @@ module.exports = {
     });
   },
 };
-
+function convertDates(entriesArray) {
+  return entriesArray.forEach((element) => {
+    element.timestamp = new Date(element.timestamp + "Z");
+  });
+}
 function previousMidnight(dateObj) {
   const midnight = new Date(dateObj.getTime());
   midnight.setHours(0);

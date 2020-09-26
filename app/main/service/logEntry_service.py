@@ -42,8 +42,12 @@ def get_entries_for_time_range(fromdate, toDate):
 
 
 def get_entries_by_subject(subject):
+    return LogEntry.query.filter_by(subject=subject).order_by(LogEntry.timestamp.desc()).all()
 
-    return LogEntry.query.filter_by(subject=subject).all()
+
+def get_entries_by_author(author_name, limit):
+    author = User.query.filter_by(username=author_name).first()
+    return LogEntry.query.filter_by(author=author).order_by(LogEntry.timestamp.desc()).limit(limit).all()
 
 
 def get_entries_by_searchString(searchString):
@@ -54,7 +58,7 @@ def get_entries_by_searchString(searchString):
             LogEntry.subject.like(searchString),
             LogEntry.text.like(searchString)
         )
-    ).all()
+    ).order_by(LogEntry.timestamp.desc()).all()
 
 
 def save_changes(data):

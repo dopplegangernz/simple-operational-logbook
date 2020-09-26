@@ -27,7 +27,6 @@ const store = new Vuex.Store({
       authKey: null,
       isAdmin: null,
     },
-    fetchBy: "date",
     selectedDate: new Date(),
     activeGroup: "All",
     date: null,

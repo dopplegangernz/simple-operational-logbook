@@ -3,7 +3,7 @@ from flask import request
 from flask_restx import Resource
 
 from ..util.dto import LogEntriesDto
-from ..service.logEntry_service import save_log_entry, get_entries_for_time_range, get_entries_by_subject, get_entries_by_searchString
+from ..service.logEntry_service import save_log_entry, get_entries_for_time_range, get_entries_by_subject, get_entries_by_searchString, get_entries_by_author
 
 import datetime
 import re
@@ -12,17 +12,6 @@ timestampRe = re.compile("(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)Z")
 
 api = LogEntriesDto.api
 _logentry = LogEntriesDto.log_entries
-
-
-# @api.route('/')
-# @api.response(404, 'No entries found.')
-# class LogEntryListForToday(Resource):
-#     @api.doc('log_entries_from_today')
-#     @api.marshal_list_with(_logentry)
-#     def get(self):
-#         """List of log entries from today"""
-
-#         return get_entries_for_date(datetime.datetime.now(datetime.timezone.utc))
 
 
 @ api.route('/<fromTimestamp>/<toTimestamp>')
@@ -53,6 +42,29 @@ class LogEntrySubjectSearch(Resource):
     def get(self, subject):
         """Get log entries with a given subject"""
         return get_entries_by_subject(subject)
+
+
+@ api.route('/search/author/<author>/<limit>')
+@ api.param('author', 'The author whose entries we want')
+@ api.param('limit', 'The max number of entries to return')
+@ api.response(404, 'LogEntry not found.')
+class LogEntryAuthorSearchWithLimit(Resource):
+    @ api.doc('Get log entries with a given author')
+    @ api.marshal_with(_logentry)
+    def get(self, author, limit):
+        """Get log entries with a given author"""
+        return get_entries_by_author(author, limit)
+
+
+@ api.route('/search/author/<author>/')
+@ api.param('author', 'The author whose entries we want')
+@ api.response(404, 'LogEntry not found.')
+class LogEntryAuthorSearch(Resource):
+    @ api.doc('Get the last 50 log entries with a given author')
+    @ api.marshal_with(_logentry)
+    def get(self, author):
+        """Get log entries with a given author"""
+        return get_entries_by_author(author, 100)
 
 
 @ api.route('/search/string/<searchString>')
