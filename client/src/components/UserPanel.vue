@@ -35,9 +35,7 @@
             <td>
               <select v-if="editMode" v-model="selectedGroup">
                 <option v-for="group in Groups" :key="group.name">
-                  {{
-                  group.name
-                  }}
+                  {{ group.name }}
                 </option>
               </select>
               <span v-else>{{ selectedGroup }}</span>
@@ -62,7 +60,9 @@
       <div class="buttons">
         <span class="sol-button" v-on:click="clearUserPanel()">Close</span>
 
-        <span class="sol-button" v-if="editMode" v-on:click="updateUser">Save</span>
+        <span class="sol-button" v-if="editMode" v-on:click="updateUser"
+          >Save</span
+        >
         <span class="sol-button" v-else v-on:click="editUser">Edit</span>
       </div>
     </modal>

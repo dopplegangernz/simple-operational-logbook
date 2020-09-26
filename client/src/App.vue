@@ -55,6 +55,9 @@ span.sol-button:hover {
   border: @lightBorder;
   background: @veryLightColour;
 }
+div.modalBox {
+  cursor: default;
+}
 .linkText {
   color: @linkcolour;
   cursor: pointer;

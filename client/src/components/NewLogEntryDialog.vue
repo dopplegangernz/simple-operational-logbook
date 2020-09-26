@@ -21,9 +21,7 @@
             <td>
               <select v-model="selectedGroup">
                 <option v-for="group in Groups" :key="group.name">
-                  {{
-                  group.name
-                  }}
+                  {{ group.name }}
                 </option>
               </select>
             </td>
@@ -57,7 +55,7 @@ export default {
       selectedGroup:
         this.$store.state.activeGroup === "All"
           ? this.$store.state.user.group
-          : this.$store.state.activeGroup,
+          : this.$store.state.activeGroup.name,
       subject: null,
       text: null,
       alertMessage: null

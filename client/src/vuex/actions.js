@@ -13,7 +13,6 @@ module.exports = {
       axios.post("/entry/", newEntry, axiosConfig).then(function(response) {
         const data = response.data;
 
-        console.log(response);
         if (data.status === "success") {
           newEntry.timestamp = new Date();
           newEntry.author_name = context.state.user.username;
@@ -33,7 +32,7 @@ module.exports = {
         .post("/auth/login", loginDetails, axiosConfig)
         .then(function(response) {
           const data = response.data;
-          console.log(response);
+
           if (data.status === "success") {
             context.commit("setUserDetails", data);
             axiosConfig.headers.authorization = data.Authorization;
@@ -48,7 +47,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       axios.post("/auth/logout", {}, axiosConfig).then(function(response) {
         const data = response.data;
-        console.log(response);
+
         if (data.status === "success") {
           context.commit("defaultUserDetails");
           axiosConfig.headers.authorization = undefined;
@@ -63,11 +62,23 @@ module.exports = {
     return new Promise((resolve, reject) => {
       axios.get("/group/", axiosConfig).then(function(response) {
         const data = response.data;
-        console.log(data);
 
         if (response.status === 200) {
           context.commit("setGroups", data);
           resolve();
+        } else {
+          reject(data.message);
+        }
+      });
+    });
+  },
+  fetchUsers() {
+    return new Promise((resolve, reject) => {
+      axios.get("/user/", axiosConfig).then(function(response) {
+        const data = response.data;
+
+        if (response.status === 200) {
+          resolve(data.data);
         } else {
           reject(data.message);
         }
@@ -104,8 +115,6 @@ module.exports = {
         .then(function(response) {
           const data = response.data;
 
-          console.log(data);
-
           if (response.status === 200) {
             convertDates(data);
 
@@ -123,8 +132,6 @@ module.exports = {
         .get("/entries/search/author/" + author_name, axiosConfig)
         .then(function(response) {
           const data = response.data;
-
-          console.log(data);
 
           if (response.status === 200) {
             convertDates(data);
@@ -161,7 +168,6 @@ module.exports = {
         const data = response.data;
         const status = response.status;
 
-        console.log(response);
         if (status === 200) {
           context.commit("updateUser", userDetails);
           resolve();
