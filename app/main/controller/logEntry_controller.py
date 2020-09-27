@@ -16,7 +16,7 @@ _logentry = LogEntryDto.log_entry
 @api.route('/')
 class LogEntryList(Resource):
     @api.response(201, 'LogEntry successfully created.')
-    @api.doc('create a new logentry')
+    @api.doc('create a new logentry (auth token required)')
     @token_required
     @api.expect(_logentry, validate=True)
     def post(self):

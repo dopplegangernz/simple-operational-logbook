@@ -167,6 +167,26 @@ class TestUserRead(BaseTestCase):
 
 
 class TestUserUpdate(BaseTestCase):
+    def test_admin_user_update_self(self):
+        bootstrap = create_admin_user(self)
+        with self.client:
+            response = self.client.get(
+                '/api/user/{}'.format(bootstrap['userId']),
+                headers=dict(
+                    Authorization=bootstrap['authKey']
+                ),
+                content_type='application/json'
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('username', data, msg="data is : {}".format(data))
+            self.assertEqual(data['email'], 'admin@example.com')
+            self.assertEqual(data['username'], 'admin',
+                             msg="data is : {}".format(data))
+            self.assertEqual(data['group'], 'adminGroup')
+            self.assertEqual(data['isAdmin'], 'True')
+            self.assertTrue(response.content_type == 'application/json')
+
     def test_nonadmin_user_update_self(self):
         raise Exception()
 

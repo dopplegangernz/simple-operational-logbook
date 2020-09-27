@@ -12,7 +12,7 @@ _user = UserDto.user
 
 @api.route('/')
 class UserList(Resource):
-    @api.doc('list_of_registered_users')
+    @api.doc('list_of_registered_users (admin token required)')
     @admin_token_required
     @api.marshal_list_with(_user, envelope='data')
     def get(self):
@@ -22,13 +22,13 @@ class UserList(Resource):
     @api.expect(_user, validate=True)
     @api.response(201, 'User successfully created.')
     @admin_token_required
-    @api.doc('create a new user')
+    @api.doc('create a new user (admin token required)')
     def post(self):
         """Creates a new User """
         data = request.json
         return save_new_user(data=data)
 
-    @api.doc('Update a user')
+    @api.doc('Update a user (auth token required for self, admin token required for others )')
     @token_required
     @api.marshal_with(_user)
     def patch(self):
@@ -50,7 +50,7 @@ class UserList(Resource):
 @api.param('public_id', 'The User identifier')
 @api.response(404, 'User not found.')
 class User(Resource):
-    @api.doc('get a user')
+    @api.doc('get a user (auth token required)')
     @token_required
     @api.marshal_with(_user)
     def get(self, public_id):

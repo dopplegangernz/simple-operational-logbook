@@ -34,7 +34,7 @@ def get_all_groups():
     return Group.query.all()
 
 
-def get_a_group(public_id):
+def get_a_group_by_id(public_id):
     return Group.query.filter_by(public_id=public_id).first()
 
 
@@ -43,10 +43,11 @@ def get_a_group_by_name(group_name):
 
 
 def update_a_group(group, data):
-    group.name = data.name
-    group.description = data.description
+    group.name = data['name']
+    group.description = data['description']
 
     save_changes(group)
+    return group
 
 
 def save_changes(data):

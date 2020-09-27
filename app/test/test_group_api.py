@@ -17,7 +17,8 @@ class TestGroupCreate(BaseTestCase):
                 '/api/group/',
                 data=json.dumps(dict(
                     name='testGroup',
-                    description='A group for testing'
+                    description='A group for testing',
+                    public_id='123456'
                 )),
                 headers=dict(
                     Authorization=authKey
@@ -93,86 +94,187 @@ class TestGroupCreate(BaseTestCase):
 class TestGroupRead(BaseTestCase):
     def test_group_read(self):
         with self.client:
-            register_user(self)
-            loginResp = login_user(self)
-            authKey = json.loads(loginResp.data.decode())['Authorization']
-
-            response = self.client.post(
-                '/group/',
-                data=json.dumps(dict(
-                    name='another test group',
-                    description='a second test group'
-                )),
-                headers=dict(
-                    Authorization=authKey
-                ),
-                content_type='application/json'
-            )
-
-            responseData = json.loads(response.data.decode())
-            groupId = responseData['id']
+            bootstrap = create_nonadmin_user(self)
 
             response = self.client.get(
-                '/group/{}'.format(groupId),
+                '/api/group/{}/'.format(bootstrap['groupPublicId']),
                 headers=dict(
-                    Authorization=authKey
+                    Authorization=bootstrap['authKey']
                 ),
                 content_type='application/json'
             )
-            responseData = json.loads(response.data.decode())
 
+            self.assertEqual(response.status_code, 200,
+                             msg="response is : {}".format(response.data.decode()))
+            self.assertIsNotNone(response.data,
+                                 msg="response is : {}".format(response))
+            responseData = json.loads(response.data.decode())
             self.assertIn("id", responseData,
-                          msg="response is : %s" % response)
-            self.assertEquals(responseData['id'], groupId)
-            self.assertEquals(responseData['name'], "another test group")
+                          msg="response is : {}".format(response))
+            self.assertEquals(responseData['id'], bootstrap['groupPublicId'])
+            self.assertEquals(responseData['name'], "adminGroup")
             self.assertEquals(
-                responseData['description'], "a second test group")
+                responseData['description'], "A group for bootstrapping testing")
 
     def test_group_read_without_valid_auth(self):
-        raise Exception()
+        with self.client:
+            bootstrap = create_nonadmin_user(self)
+
+            response = self.client.get(
+                '/api/group/{}/'.format(bootstrap['groupPublicId']),
+                content_type='application/json'
+            )
+
+            self.assertEqual(response.status_code, 200,
+                             msg="response is : {}".format(response.data.decode()))
+            self.assertIsNotNone(response.data,
+                                 msg="response is : {}".format(response))
+            responseData = json.loads(response.data.decode())
+            self.assertIn("id", responseData,
+                          msg="response is : {}".format(response))
+            self.assertEquals(responseData['id'], bootstrap['groupPublicId'])
+            self.assertEquals(responseData['name'], "adminGroup")
+            self.assertEquals(
+                responseData['description'], "A group for bootstrapping testing")
 
 
 class TestGroupUpdate(BaseTestCase):
     def test_group_update(self):
         with self.client:
-            response = register_group(self)
-            data = json.loads(response.data.decode())
+            bootstrap = create_admin_user(self)
 
-            self.assertTrue(data['status'] == 'success')
-            self.assertTrue(data['message'] == 'Successfully registered.')
-
-            public_id = data['id']
-
-            resp_register = register_user(self)
-
-            response = self.client.get(
-                '/group/',
-                content_type='application/json',
-                headers=dict(
-                    Authorization='Bearer ' + json.loads(
-                        resp_register.data.decode()
-                    )['Authorization']
-                )
-            )
+            public_id = bootstrap['groupPublicId']
 
             response = self.client.patch(
-                '/group/',
+                '/api/group/{}/'.format(bootstrap['groupPublicId']),
                 data=json.dumps(dict(
-                    group='renamedGroup',
+                    name='renamedGroup',
                     description='renamed group, yo'
                 )),
                 content_type='application/json',
                 headers=dict(
-                    Authorization='Bearer ' + json.loads(
-                        resp_register.data.decode()
-                    )['Authorization']
+                    Authorization=bootstrap['authKey']
                 )
             )
+            self.assertEqual(response.status_code, 200,
+                             msg="response is : {}".format(response.data.decode()))
+            self.assertIsNotNone(response.data,
+                                 msg="response is : {}".format(response))
+            responseData = json.loads(response.data.decode())
+            self.assertIn("id", responseData,
+                          msg="response is : {}".format(response))
+            self.assertEquals(responseData['id'], bootstrap['groupPublicId'])
+            self.assertEquals(responseData['name'], "renamedGroup")
+            self.assertEquals(
+                responseData['description'], "renamed group, yo")
+
+    def test_group_update_by_nonadmin(self):
+        with self.client:
+            bootstrap = create_nonadmin_user(self)
+
+            public_id = bootstrap['groupPublicId']
+
+            response = self.client.patch(
+                '/api/group/{}/'.format(bootstrap['groupPublicId']),
+                data=json.dumps(dict(
+                    name='renamedGroup',
+                    description='renamed group, yo'
+                )),
+                content_type='application/json',
+                headers=dict(
+                    Authorization=bootstrap['authKey']
+                )
+            )
+            self.assertEqual(response.status_code, 401,
+                             msg="response is : {}".format(response.data.decode()))
+            self.assertIsNotNone(response.data,
+                                 msg="response is : {}".format(response))
+            responseData = json.loads(response.data.decode())
+            self.assertEquals(responseData['status'], 'fail')
+            self.assertEquals(
+                responseData['message'], "You must be logged in as an admin to do that")
+
+    def test_group_update_with_bad_id(self):
+        with self.client:
+            bootstrap = create_admin_user(self)
+
+            public_id = bootstrap['groupPublicId']
+
+            response = self.client.patch(
+                '/api/group/someBadId/',
+                data=json.dumps(dict(
+                    name='renamedGroup',
+                    description='renamed group, yo'
+                )),
+                content_type='application/json',
+                headers=dict(
+                    Authorization=bootstrap['authKey']
+                )
+            )
+            self.assertEqual(response.status_code, 404,
+                             msg="response is : {}".format(response.data.decode()))
+            self.assertIsNotNone(response.data,
+                                 msg="response is : {}".format(response))
+            responseData = json.loads(response.data.decode())
+            self.assertEquals(
+                responseData['message'], "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again. You have requested this URI [/api/group/someBadId/] but did you mean /api/group/<public_id>/ or /api/group/ ?")
 
 
 class TestGroupsRead(BaseTestCase):
     def test_groups_read(self):
-        raise Exception()
+        authKey = create_admin_user(self)['authKey']
+        with self.client:
+            self.client.post(
+                '/api/group/',
+                data=json.dumps(dict(
+                    name='group1',
+                    description='A group for testing',
+                    public_id='123456'
+                )),
+                headers=dict(
+                    Authorization=authKey
+                ),
+                content_type='application/json'
+            )
+            self.client.post(
+                '/api/group/',
+                data=json.dumps(dict(
+                    name='group2',
+                    description='Another group for testing',
+                    public_id='34566'
+                )),
+                headers=dict(
+                    Authorization=authKey
+                ),
+                content_type='application/json'
+            )
+            self.client.post(
+                '/api/group/',
+                data=json.dumps(dict(
+                    name='group3',
+                    description='yet another group for testing',
+                    public_id='12234563456'
+                )),
+                headers=dict(
+                    Authorization=authKey
+                ),
+                content_type='application/json'
+            )
+            response = self.client.get(
+                '/api/group/',
+                content_type='application/json'
+            )
+            self.assertEqual(response.status_code, 200,
+                             msg="response is : {}".format(response.data.decode()))
+            self.assertIsNotNone(response.data,
+                                 msg="response is : {}".format(response))
+            responseData = json.loads(response.data.decode())
+            # There was the admin group in there before we added two more
+            self.assertEqual(len(responseData), 4)
+            group2 = responseData[2]
+            self.assertEqual(group2['name'], "group2")
+            self.assertEqual(group2['description'],
+                             "Another group for testing")
 
 
 if __name__ == '__main__':
