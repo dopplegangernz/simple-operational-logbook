@@ -8,7 +8,7 @@ from app.test.base import BaseTestCase
 from app.test.helpers import register_user, login_user, create_log_entry
 
 
-class TestLogEntry(BaseTestCase):
+class TestLogEntryCreate(BaseTestCase):
     def test_create_log_entry(self):
         register_user(self)
         loginResp = login_user(self)
@@ -26,6 +26,11 @@ class TestLogEntry(BaseTestCase):
         self.assertTrue(responseData['status'] == 'success', msg="{}".format(
             response.data.decode()))
 
+    def test_create_log_entry_with_invalid_session(self):
+        raise Exception()
+
+
+class TestLogEntryRead(BaseTestCase):
     def test_get_log_entry(self):
         register_user(self)
         loginResp = login_user(self)
@@ -55,3 +60,6 @@ class TestLogEntry(BaseTestCase):
         self.assertEquals(responseData['text'], "words, words, words")
         self.assertEquals(responseData['author_name'], "test username")
         self.assertEquals(responseData['group_name'], "testGroup")
+
+    def test_get_log_entry_with_invalid_id(self):
+        raise Exception()

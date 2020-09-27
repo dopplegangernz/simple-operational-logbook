@@ -5,11 +5,18 @@ from app.main import db
 from app.main.model.logEntry import LogEntry
 from app.main.model.user import User
 from app.main.model.group import Group
-import app.main.util.utilFunctions as utilFunctions
 
 
 def save_log_entry(data):
-    groupId = Group.query.filter_by(name=data['group_name']).first().id
+    group = Group.query.filter_by(name=data['group_name']).first()
+    if not group:
+        response_object = {
+            'status': 'fail',
+            'message': 'No such group.'
+        }
+        return response_object, 400
+
+    groupId = group.id
 
     new_entry = LogEntry(
         public_id=str(uuid.uuid4()),

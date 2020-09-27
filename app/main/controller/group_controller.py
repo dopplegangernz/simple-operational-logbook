@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Resource
 
-from app.main.util.decorator import token_required
+from app.main.util.decorator import token_required, admin_token_required
 
 from ..util.dto import GroupDto
 from ..service.group_service import save_new_group, get_all_groups, get_a_group, update_a_group
@@ -11,7 +11,7 @@ _group = GroupDto.group
 
 
 @api.route('/')
-class GroupList(Resource):
+class Groups(Resource):
     @api.doc('list_of_registered_groups')
     @api.marshal_list_with(_group)
     def get(self):
@@ -21,6 +21,7 @@ class GroupList(Resource):
     @api.response(201, 'Group successfully created.')
     @api.doc('create a new group')
     @api.expect(_group, validate=True)
+    @admin_token_required
     def post(self):
         """Creates a new Group """
         data = request.json
@@ -43,7 +44,8 @@ class Group(Resource):
 
     @api.doc('Update a group')
     @api.marshal_with(_group)
-    @token_required
+    @admin_token_required
+    @api.expect(_group, validate=True)
     def patch(self):
         """Update a group"""
         data = request.json

@@ -14,7 +14,7 @@ def save_new_user(data):
     if not group:
         response_object = {
             'status': 'fail',
-            'message': '{} is not a valid group name'.format(groupPublicId)
+            'message': '{} is not a valid group name'.format(data['group'])
         }
         return response_object, 409
     elif not user:
@@ -62,15 +62,30 @@ def generate_token(user):
         return response_object, 401
 
 
-def update_a_user(user, group, userDetails):
-    user.email = userDetails['email']
-    user.username = userDetails['username']
-    user.group_id = group.id
+def update_a_user(user, userDetails):
+    group = Group.query.filter_by(name=userDetails['group']).first()
 
-    if("password" in userDetails):
-        user.password = userDetails['password']
+    if not group:
+        response_object = {
+            'status': 'fail',
+            'message': '{} is not a valid group name'.format(userDetails['group'])
+        }
+        return response_object, 409
+    elif not user:
+        response_object = {
+            'status': 'fail',
+            'message': '{} is not a valid user id (and you should never see this message)'.format(userDetails['id'])
+        }
+        return response_object, 404
+    else:
+        user.email = userDetails['email']
+        user.username = userDetails['username']
+        user.group_id = group.id
 
-    save_changes(user)
+        if("password" in userDetails):
+            user.password = userDetails['password']
+
+        save_changes(user)
 
 
 def save_changes(data):

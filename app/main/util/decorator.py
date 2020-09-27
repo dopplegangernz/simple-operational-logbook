@@ -36,7 +36,7 @@ def admin_token_required(f):
         if not admin:
             response_object = {
                 'status': 'fail',
-                'message': 'admin token required'
+                'message': 'You must be logged in as an admin to do that'
             }
             return response_object, 401
 

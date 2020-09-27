@@ -21,6 +21,7 @@ class UserList(Resource):
 
     @api.expect(_user, validate=True)
     @api.response(201, 'User successfully created.')
+    @admin_token_required
     @api.doc('create a new user')
     def post(self):
         """Creates a new User """
@@ -28,25 +29,21 @@ class UserList(Resource):
         return save_new_user(data=data)
 
     @api.doc('Update a user')
-    @api.marshal_with(_user)
     @token_required
+    @api.marshal_with(_user)
     def patch(self):
         """Update a user"""
         data = request.json
         user = get_a_user(data['id'])
 
-        group = get_a_group_by_name(data['group_name'])
-
         if not user:
-            api.abort(404, "No such user")
-        elif not group:
-            api.abort(404, "Not a valid group")
+            api.abort(
+                404, message="No such user")
+        elif request.userData['user_id'] == user.id or request.userData['admin'] == True:
+            return update_a_user(user, data)
         else:
-            if request.userData['user_id'] == user.id or request.userData['admin'] == True:
-                return update_a_user(user, group, data)
-            else:
-                api.abort(
-                    403, message="You do not have permission to update this user")
+            api.abort(
+                403, message="You do not have permission to update this user")
 
 
 @api.route('/<public_id>')
@@ -54,6 +51,7 @@ class UserList(Resource):
 @api.response(404, 'User not found.')
 class User(Resource):
     @api.doc('get a user')
+    @token_required
     @api.marshal_with(_user)
     def get(self, public_id):
         """get a user given its identifier"""

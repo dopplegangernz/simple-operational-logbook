@@ -44,27 +44,27 @@ class LogEntrySubjectSearch(Resource):
         return get_entries_by_subject(subject)
 
 
-@ api.route('/search/author/<author>/<limit>')
-@ api.param('author', 'The author whose entries we want')
+@ api.route('/search/author/<author_name>/<limit>')
+@ api.param('author_name', 'The author whose entries we want')
 @ api.param('limit', 'The max number of entries to return')
 @ api.response(404, 'LogEntry not found.')
 class LogEntryAuthorSearchWithLimit(Resource):
     @ api.doc('Get log entries with a given author')
     @ api.marshal_with(_logentry)
-    def get(self, author, limit):
+    def get(self, author_name, limit):
         """Get log entries with a given author"""
-        return get_entries_by_author(author, limit)
+        return get_entries_by_author(author_name, limit)
 
 
-@ api.route('/search/author/<author>/')
-@ api.param('author', 'The author whose entries we want')
+@ api.route('/search/author/<author_name>/')
+@ api.param('author_name', 'The author whose entries we want')
 @ api.response(404, 'LogEntry not found.')
 class LogEntryAuthorSearch(Resource):
     @ api.doc('Get the last 50 log entries with a given author')
     @ api.marshal_with(_logentry)
-    def get(self, author):
+    def get(self, author_name):
         """Get log entries with a given author"""
-        return get_entries_by_author(author, 100)
+        return get_entries_by_author(author_name, 100)
 
 
 @ api.route('/search/string/<searchString>')

@@ -83,7 +83,7 @@ class Auth:
         else:
             response_object = {
                 'status': 'fail',
-                'message': 'Provide a valid auth token.'
+                'message': 'You must be logged in to do that.'
             }
             return response_object, 401
 
