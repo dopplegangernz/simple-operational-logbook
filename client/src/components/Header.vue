@@ -1,7 +1,7 @@
 <template>
   <div class="header" id="sol-header">
     <div class="logo">
-      <img alt="Logo" v-bind:src="Logo" />
+      <img alt="Logo" width="250" v-bind:src="Logo" />
     </div>
     <div class="restOfHeader">
       <div class="table">
@@ -9,18 +9,19 @@
           <div class="title">
             <h1>{{ Name }}</h1>
           </div>
-          <div class="calendar">
-            <v-date-picker
-              v-model="selectedDate"
-              :max-date="new Date()"
-              :attributes="calendarAttributes"
-              :is-required="true"
-            ></v-date-picker>
-          </div>
         </div>
       </div>
       <TabBar />
       <UIBar />
+    </div>
+    <div class="calendar">
+      <v-date-picker
+        v-model="selectedDate"
+        :max-date="new Date()"
+        :attributes="calendarAttributes"
+        :is-required="true"
+        is-inline
+      ></v-date-picker>
     </div>
   </div>
 </template>
@@ -33,7 +34,7 @@ export default {
   name: "Header",
   components: {
     TabBar,
-    UIBar,
+    UIBar
   },
   data() {
     return {
@@ -41,9 +42,9 @@ export default {
         {
           key: "today",
           highlight: "red",
-          dates: new Date(),
-        },
-      ],
+          dates: new Date()
+        }
+      ]
     };
   },
   computed: {
@@ -58,15 +59,15 @@ export default {
           .catch(function(reason) {
             alert(reason);
           });
-      },
+      }
     },
     Name() {
       return this.$store.state.appName;
     },
     Logo() {
       return this.$store.state.logo;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -81,13 +82,13 @@ div.header {
 div.logo {
   display: inline-block;
   margin-left: 1em;
-  width: 200px;
+  width: 250px;
   padding-right: 6px;
   border-right: @mediumBorder;
 }
 div.restOfHeader {
   display: inline-block;
-  width: 85%;
+  width: calc(100vw - 570px);
 }
 div.table {
   display: table;
@@ -103,8 +104,9 @@ div.title {
   text-align: center;
 }
 div.calendar {
-  width: 300px;
-  display: table-cell;
+  width: 260px;
+  display: inline-block;
+  vertical-align: bottom;
 }
 </style>
 <style lang="less">

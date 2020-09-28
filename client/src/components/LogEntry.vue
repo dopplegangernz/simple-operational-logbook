@@ -57,15 +57,15 @@ export default {
 .sol-logEntry-metadata {
   display: inline-block;
   border-right: @lightBorder;
-  padding-right: 1em;
+  padding-right: 15px;
   padding-top: @mediumPadding;
   padding-bottom: @mediumPadding;
-  width: 15%;
+  width: 257px;
 }
 .sol-logEntry-content {
   display: inline-block;
-  padding-left: 1em;
-  width: 80%;
+  padding-left: 15px;
+  width: calc(100vw - 350px);
 }
 .sol-logEntry-title {
   width: 100%;
