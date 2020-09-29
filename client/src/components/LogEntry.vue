@@ -26,25 +26,29 @@
           v-bind:payload="entryData.subject"
         />
       </div>
-      <div class="sol-logEntry-text">{{ entryData.text }}</div>
+      <div class="sol-logEntry-text">
+        <markdown-it-vue class="md-body" :content="entryData.text" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import SearchIcon from "./SearchIcon.vue";
+import MarkdownItVue from "markdown-it-vue";
+import "markdown-it-vue/dist/markdown-it-vue.css";
 
 export default {
   name: "LogEntry",
-  components: { SearchIcon },
+  components: { SearchIcon, MarkdownItVue },
   computed: {
     ActiveGroup() {
       return this.$store.state.activeGroup;
-    }
+    },
   },
   props: {
-    entryData: Object
-  }
+    entryData: Object,
+  },
 };
 </script>
 

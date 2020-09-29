@@ -7,8 +7,8 @@
       :focusTrap="true"
       :clickToClose="false"
       classes="modalBox"
-      width="600px"
-      height="350px"
+      width="800px"
+      height="500px"
     >
       <div class="title dragHandle">
         <span>New Log Entry</span>
@@ -33,7 +33,8 @@
           <tr>
             <th>Text:</th>
             <td>
-              <textarea v-model="text" />
+              <markdown-it-vue v-if="preview" :content="text" />
+              <textarea v-else v-model="text" />
             </td>
           </tr>
         </table>
@@ -42,23 +43,40 @@
       <div class="buttons">
         <span class="sol-button" v-on:click="clearNewEntryDialog">Cancel</span>
         <span class="sol-button" v-on:click="saveEntry">Save</span>
+        <label
+          >Preview markdown:
+          <input class="checkbox" type="checkbox" v-model="preview"
+        /></label>
       </div>
+      <p>
+        You can use MarkDown markup in entries.
+        <a href="https://www.markdownguide.org/basic-syntax/"
+          >Basic formatting</a
+        >
+      </p>
     </modal>
   </span>
 </template>
 
 <script>
+import MarkdownItVue from "markdown-it-vue";
+import "markdown-it-vue/dist/markdown-it-vue.css";
+
 export default {
   name: "NewLogEntryDialog",
+  components: {
+    MarkdownItVue,
+  },
   data: function() {
     return {
+      preview: false,
       selectedGroup:
         this.$store.state.activeGroup === "All"
           ? this.$store.state.user.group
           : this.$store.state.activeGroup.name,
       subject: null,
-      text: null,
-      alertMessage: null
+      text: "",
+      alertMessage: null,
     };
   },
   computed: {
@@ -66,7 +84,7 @@ export default {
       return this.$store.state.groups.filter(function(group) {
         return group.name !== "All";
       });
-    }
+    },
   },
   methods: {
     showNewEntryDialog() {
@@ -77,21 +95,19 @@ export default {
     },
     clearNewEntryDialog() {
       this.subject = null;
-      this.text = null;
+      this.text = "";
       this.selectedGroup =
         this.$store.state.activeGroup === "All"
           ? this.$store.state.user.group
           : this.$store.state.activeGroup;
       this.$modal.hide("newEntryDialog");
     },
-
     saveEntry() {
       const newEntry = {
         group_name: this.selectedGroup,
         subject: this.subject,
-        text: this.text
+        text: this.text,
       };
-
       if (!newEntry.subject) {
         this.alertMessage = "Entry requires a subject.";
       } else if (!newEntry.text) {
@@ -107,8 +123,8 @@ export default {
             self.alertMessage = message;
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -143,10 +159,18 @@ td {
 }
 input {
   width: 100%;
+  border: @darkBorder;
 }
-textarea {
+input.checkbox {
+  width: 2em;
+}
+textarea,
+.markdown-body {
+  text-align: left;
   width: 100%;
-  height: 14em;
+  height: 300px;
+  overflow: scroll;
+  border: @darkBorder;
 }
 div.alertMessage {
   text-align: center;

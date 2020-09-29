@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "markdown-it-vue": "^1.1.3",
     "style-resources-loader": "^1.3.3",
     "v-calendar": "^1.0.8",
     "vue": "^2.6.11",
