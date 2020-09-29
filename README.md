@@ -2,6 +2,8 @@
 
 This is based off the most excellent Flask-RestX-Boilerplate
 
+**Note:** this is in active development approaching 1.0 - i'm trying not to leave it in a broken state day to day, but I'm working on this no my own, and AFAIK noone else is looking at it, so I'm not being super paranoid about good commit practices; fear not, this will change once it gets to a minimum viable version. And in the interim, if it's snapped, chuck in an issue and I'll aim to fix it ASAP 
+
 ### Terminal commands
 
 Note: make sure you have `pip`, `virtualenv`, and `npm` installed.
