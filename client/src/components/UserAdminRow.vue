@@ -51,7 +51,7 @@
     <td>
       <svg
         v-on:click="editRow"
-        width="20px%"
+        width="20px"
         height="20px"
         viewBox="0 0 20 20"
         version="1.1"
