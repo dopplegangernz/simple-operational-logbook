@@ -11,6 +11,7 @@ _user = UserDto.user
 
 
 @api.route('/')
+@api.response(404, 'User not found.')
 class UserList(Resource):
     @api.doc('list_of_registered_users (admin token required)')
     @admin_token_required

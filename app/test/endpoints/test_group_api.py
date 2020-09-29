@@ -94,12 +94,12 @@ class TestGroupCreate(BaseTestCase):
 class TestGroupRead(BaseTestCase):
     def test_group_read(self):
         with self.client:
-            bootstrap = create_nonadmin_user(self)
+            nonAdmin = create_nonadmin_user(self)
 
             response = self.client.get(
-                '/api/group/{}/'.format(bootstrap['groupPublicId']),
+                '/api/group/{}/'.format(nonAdmin['group'].public_id),
                 headers=dict(
-                    Authorization=bootstrap['authKey']
+                    Authorization=nonAdmin['authKey']
                 ),
                 content_type='application/json'
             )
@@ -111,17 +111,17 @@ class TestGroupRead(BaseTestCase):
             responseData = json.loads(response.data.decode())
             self.assertIn("id", responseData,
                           msg="response is : {}".format(response))
-            self.assertEquals(responseData['id'], bootstrap['groupPublicId'])
+            self.assertEquals(responseData['id'], nonAdmin['group'].public_id)
             self.assertEquals(responseData['name'], "adminGroup")
             self.assertEquals(
                 responseData['description'], "A group for bootstrapping testing")
 
     def test_group_read_without_valid_auth(self):
         with self.client:
-            bootstrap = create_nonadmin_user(self)
+            nonAdmin = create_nonadmin_user(self)
 
             response = self.client.get(
-                '/api/group/{}/'.format(bootstrap['groupPublicId']),
+                '/api/group/{}/'.format(nonAdmin['group'].public_id),
                 content_type='application/json'
             )
 
@@ -132,7 +132,7 @@ class TestGroupRead(BaseTestCase):
             responseData = json.loads(response.data.decode())
             self.assertIn("id", responseData,
                           msg="response is : {}".format(response))
-            self.assertEquals(responseData['id'], bootstrap['groupPublicId'])
+            self.assertEquals(responseData['id'], nonAdmin['group'].public_id)
             self.assertEquals(responseData['name'], "adminGroup")
             self.assertEquals(
                 responseData['description'], "A group for bootstrapping testing")
@@ -141,19 +141,19 @@ class TestGroupRead(BaseTestCase):
 class TestGroupUpdate(BaseTestCase):
     def test_group_update(self):
         with self.client:
-            bootstrap = create_admin_user(self)
+            admin = create_admin_user(self)
 
-            public_id = bootstrap['groupPublicId']
+            public_id = admin['group'].public_id
 
             response = self.client.patch(
-                '/api/group/{}/'.format(bootstrap['groupPublicId']),
+                '/api/group/{}/'.format(admin['group'].public_id),
                 data=json.dumps(dict(
                     name='renamedGroup',
                     description='renamed group, yo'
                 )),
                 content_type='application/json',
                 headers=dict(
-                    Authorization=bootstrap['authKey']
+                    Authorization=admin['authKey']
                 )
             )
             self.assertEqual(response.status_code, 200,
@@ -163,26 +163,26 @@ class TestGroupUpdate(BaseTestCase):
             responseData = json.loads(response.data.decode())
             self.assertIn("id", responseData,
                           msg="response is : {}".format(response))
-            self.assertEquals(responseData['id'], bootstrap['groupPublicId'])
+            self.assertEquals(responseData['id'], admin['group'].public_id)
             self.assertEquals(responseData['name'], "renamedGroup")
             self.assertEquals(
                 responseData['description'], "renamed group, yo")
 
     def test_group_update_by_nonadmin(self):
         with self.client:
-            bootstrap = create_nonadmin_user(self)
+            nonAdmin = create_nonadmin_user(self)
 
-            public_id = bootstrap['groupPublicId']
+            public_id = nonAdmin['group'].public_id
 
             response = self.client.patch(
-                '/api/group/{}/'.format(bootstrap['groupPublicId']),
+                '/api/group/{}/'.format(nonAdmin['group'].public_id),
                 data=json.dumps(dict(
                     name='renamedGroup',
                     description='renamed group, yo'
                 )),
                 content_type='application/json',
                 headers=dict(
-                    Authorization=bootstrap['authKey']
+                    Authorization=nonAdmin['authKey']
                 )
             )
             self.assertEqual(response.status_code, 401,
@@ -196,9 +196,9 @@ class TestGroupUpdate(BaseTestCase):
 
     def test_group_update_with_bad_id(self):
         with self.client:
-            bootstrap = create_admin_user(self)
+            admin = create_admin_user(self)
 
-            public_id = bootstrap['groupPublicId']
+            public_id = admin['group'].public_id
 
             response = self.client.patch(
                 '/api/group/someBadId/',
@@ -208,7 +208,7 @@ class TestGroupUpdate(BaseTestCase):
                 )),
                 content_type='application/json',
                 headers=dict(
-                    Authorization=bootstrap['authKey']
+                    Authorization=admin['authKey']
                 )
             )
             self.assertEqual(response.status_code, 404,

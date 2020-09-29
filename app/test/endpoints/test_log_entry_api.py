@@ -24,7 +24,26 @@ class TestLogEntryCreate(BaseTestCase):
             response.data.decode()))
 
     def test_create_log_entry_with_invalid_session(self):
-        raise Exception()
+        authKey = get_nonadmin_authKey(self)
+
+        response = self.client.post(
+            '/api/entry/',
+            data=json.dumps(dict(
+                subject="hello there",
+                text="words words words",
+                group_name="adminGroup"
+            )),
+            content_type='application/json'
+        )
+
+        responseData = json.loads(response.data.decode())
+
+        self.assertIn("status", responseData,
+                      msg="response is : %s" % response)
+        self.assertTrue(responseData['status'] == 'fail', msg="{}".format(
+            response.data.decode()))
+        self.assertEqual(responseData['message'],
+                         'You must be logged in to do that.')
 
 
 class TestLogEntryRead(BaseTestCase):
@@ -60,4 +79,19 @@ class TestLogEntryRead(BaseTestCase):
         self.assertEquals(responseData['group_name'], "adminGroup")
 
     def test_get_log_entry_with_invalid_id(self):
-        raise Exception()
+        authKey = get_nonadmin_authKey(self)
+
+        response = self.client.get(
+            '/api/entry/invalidId',
+            headers=dict(
+                Authorization=authKey
+            ),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 404,
+                         msg="response is : {}".format(response.data.decode()))
+        self.assertIsNotNone(response.data,
+                             msg="response is : {}".format(response))
+        responseData = json.loads(response.data.decode())
+        self.assertEquals(
+            responseData['message'][:46], "The requested URL was not found on the server.")

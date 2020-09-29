@@ -2,6 +2,7 @@ import json
 from app.main import db
 from app.main.model.user import User
 from app.main.model.group import Group
+from app.main.service.group_service import get_a_group_by_id
 import datetime
 
 
@@ -14,16 +15,18 @@ def create_group(self):
     db.session.add(group)
     db.session.commit()
 
-    return {'id': group.id, 'public_id': group.public_id}
+    return group
 
 
-def create_admin_user(self):
-    group = create_group(self)
+def create_admin_user(self, group=False):
+    if not group:
+        group = create_group(self)
+
     user = User(
         username='admin',
         email='admin@example.com',
         password='admin',
-        group_id=group['id'],
+        group_id=group.id,
         admin=True,
         public_id='1',
         registered_on=datetime.datetime.utcnow()
@@ -31,29 +34,33 @@ def create_admin_user(self):
     db.session.add(user)
     db.session.commit()
     return {
-        'userId': user.public_id,
-        'groupId': group['id'],
-        'groupPublicId': group['public_id'],
+        'user': user,
+        'group': group,
         'authKey': User.encode_auth_token(user.id)
     }
 
 
-def create_nonadmin_user(self):
-    group = create_group(self)
+def create_nonadmin_user(self, groupId=False):
+    if groupId:
+        group = Group.query.filter_by(id=groupId).first()
+    else:
+        group = create_group(self)
+        groupId = group.id
+
     user = User(
         username='steve',
         email='steve@steve.com',
         password='steve',
-        group_id=group['id'],
+        group_id=groupId,
+        public_id='12342134',
         admin=False,
         registered_on=datetime.datetime.utcnow()
     )
     db.session.add(user)
     db.session.commit()
     return {
-        'userId': user.public_id,
-        'groupId': group['id'],
-        'groupPublicId': group['public_id'],
+        'user': user,
+        'group': group,
         'authKey': User.encode_auth_token(user.id)
     }
 

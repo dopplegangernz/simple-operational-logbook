@@ -87,6 +87,8 @@ def update_a_user(user, userDetails):
 
         save_changes(user)
 
+        return user, 200
+
 
 def save_changes(data):
     db.session.add(data)

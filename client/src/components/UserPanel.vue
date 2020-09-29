@@ -118,7 +118,7 @@ export default {
         id: this.$store.state.user.id,
         username: this.username,
         email: this.email,
-        group_name: this.selectedGroup
+        group: this.selectedGroup
       };
 
       if (this.password1) {
