@@ -27,7 +27,7 @@
         />
       </div>
       <div class="sol-logEntry-text">
-        <markdown-it-vue class="md-body" :content="entryData.text" />
+        <markdown-it-vue-light class="md-body" :content="entryData.text" />
       </div>
     </div>
   </div>
@@ -35,12 +35,12 @@
 
 <script>
 import SearchIcon from "./SearchIcon.vue";
-import MarkdownItVue from "markdown-it-vue";
-import "markdown-it-vue/dist/markdown-it-vue.css";
+import MarkdownItVueLight from "markdown-it-vue/dist/markdown-it-vue-light.umd.min.js";
+import "markdown-it-vue/dist/markdown-it-vue-light.css";
 
 export default {
   name: "LogEntry",
-  components: { SearchIcon, MarkdownItVue },
+  components: { SearchIcon, MarkdownItVueLight },
   computed: {
     ActiveGroup() {
       return this.$store.state.activeGroup;

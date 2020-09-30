@@ -33,7 +33,7 @@
           <tr>
             <th>Text:</th>
             <td>
-              <markdown-it-vue v-if="preview" :content="text" />
+              <markdown-it-vue-light v-if="preview" :content="text" />
               <textarea v-else v-model="text" />
             </td>
           </tr>
@@ -59,13 +59,13 @@
 </template>
 
 <script>
-import MarkdownItVue from "markdown-it-vue";
-import "markdown-it-vue/dist/markdown-it-vue.css";
+import MarkdownItVueLight from "markdown-it-vue/dist/markdown-it-vue-light.umd.min.js";
+import "markdown-it-vue/dist/markdown-it-vue-light.css";
 
 export default {
   name: "NewLogEntryDialog",
   components: {
-    MarkdownItVue,
+    MarkdownItVueLight,
   },
   data: function() {
     return {
