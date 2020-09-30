@@ -57,6 +57,7 @@ def ensureDBHasUsers(app, db):
             email="admin",
             username="admin",
             password="admin",
+            admin=True,
             group_id=groupId,
             registered_on=datetime.datetime.utcnow()
         )
