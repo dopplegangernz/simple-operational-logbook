@@ -1,7 +1,7 @@
 <template>
-  <div class="sol-logEntry">
-    <div class="sol-logEntry-metadata">
-      <div class="sol-logEntry-timestamp">
+  <div class="logEntry">
+    <div class="metadata">
+      <div class="timestamp">
         {{ entryData.timestamp.toLocaleDateString() }}
         {{ entryData.timestamp.toLocaleTimeString() }}
         <SearchIcon
@@ -9,7 +9,7 @@
           v-bind:payload="entryData.timestamp"
         />
       </div>
-      <div class="sol-logEntry-author">
+      <div class="author">
         {{ entryData.author_name }}
         <SearchIcon
           action="fetchEntriesByAuthor"
@@ -17,16 +17,19 @@
         />
       </div>
     </div>
-    <div class="sol-logEntry-content">
-      <div class="sol-logEntry-title">
+    <div class="content">
+      <div class="title">
         <span v-if="ActiveGroup === 'All'">[{{ entryData.group_name }}]</span>
-        {{ entryData.subject }}
+        <span 
+          action="">
+          {{ entryData.subject }}
+        </span>
         <SearchIcon
           action="fetchEntriesBySubject"
           v-bind:payload="entryData.subject"
         />
       </div>
-      <div class="sol-logEntry-text">
+      <div class="text">
         <markdown-it-vue-light class="md-body" :content="entryData.text" />
       </div>
     </div>
@@ -54,11 +57,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.sol-logEntry {
+.logEntry {
   width: 100%;
   border-top: @lightBorder;
 }
-.sol-logEntry-metadata {
+.metadata {
   display: inline-block;
   border-right: @lightBorder;
   padding-right: 15px;
@@ -66,12 +69,12 @@ export default {
   padding-bottom: @mediumPadding;
   width: 257px;
 }
-.sol-logEntry-content {
+.content {
   display: inline-block;
   padding-left: 15px;
   width: calc(100vw - 350px);
 }
-.sol-logEntry-title {
+.title {
   width: 100%;
   background: @lightColour;
 }
