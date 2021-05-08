@@ -7,6 +7,10 @@ module.exports = {
       addStyleResource(config.module.rule("less").oneOf(type))
     );
   },
+  pages: {
+    index: "src/main.js",
+    admin: "src/admin.js",
+  },
 };
 
 function addStyleResource(rule) {

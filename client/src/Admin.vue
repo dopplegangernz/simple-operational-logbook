@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="admin">
     <Header />
     <LogArea />
     <Footer />
@@ -7,16 +7,12 @@
 </template>
 
 <script>
-import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
-import LogArea from "./components/LogArea.vue";
 
 export default {
-  name: "App",
+  name: "Almin",
   components: {
-    Footer,
     Header,
-    LogArea
   },
   mounted: function() {
     this.$store.commit("defaultUserDetails");
@@ -28,12 +24,12 @@ export default {
       .catch(function(reason) {
         alert(reason);
       });
-  }
+  },
 };
 </script>
 
 <style lang="less">
-#app {
+#client {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

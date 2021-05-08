@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Client from "./Client.vue";
+import Admin from "./Admin.vue";
 import VCalendar from "v-calendar";
 import Vuex from "vuex";
 import VModal from "vue-js-modal";
@@ -40,5 +40,5 @@ const store = new Vuex.Store({
 
 new Vue({
   store: store,
-  render: (h) => h(Client),
+  render: (h) => h(Admin),
 }).$mount("#app");
