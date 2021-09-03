@@ -12,7 +12,7 @@
         </div>
       </div>
       <TabBar />
-      <UIBar />
+      <LogsUIBar />
     </div>
     <div class="calendar">
       <v-date-picker
@@ -27,14 +27,14 @@
 </template>
 
 <script>
-import TabBar from "./TabBar.vue";
-import UIBar from "./UIBar.vue";
+import TabBar from "../Shared/TabBar.vue";
+import LogsUIBar from "./LogsUIBar.vue";
 
 export default {
   name: "Header",
   components: {
     TabBar,
-    UIBar
+    LogsUIBar
   },
   data() {
     return {

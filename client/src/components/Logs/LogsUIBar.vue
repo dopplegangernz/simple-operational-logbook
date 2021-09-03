@@ -22,24 +22,28 @@
       <span class="sol-button" v-on:click="searchByString(SearchInputValue)">Go</span>
     </div>
     <span class="buttons">
-      <AdminPanel v-if="isAdmin" />
-      <UserPanel v-if="isLoggedIn" />
+      <span class="sol-button" v-if="isAdmin">
+        <router-link to="/admin">
+          Admin Panel
+        </router-link>
+      </span >
+      <span class="sol-button" v-if="isLoggedIn" >
+        <router-link :to="'/user/'+Name">
+          {{ Name }}
+        </router-link>
+      </span>
       <LoginDialog />
     </span>
   </div>
 </template>
 
 <script>
-import AdminPanel from "./AdminPanel.vue";
-import UserPanel from "./UserPanel.vue";
-import LoginDialog from "./LoginDialog.vue";
+import LoginDialog from "../Shared/LoginDialog.vue";
 
 export default {
-  name: "UIBar",
+  name: "LogsUIBar",
   components: {
-    UserPanel,
-    LoginDialog,
-    AdminPanel
+    LoginDialog
   },
   data: function() {
     return {
@@ -52,6 +56,9 @@ export default {
     },
     isLoggedIn() {
       return this.$store.state.user.username !== null;
+    },
+    Name() {
+      return this.$store.state.user.username;
     }
   },
   methods: {

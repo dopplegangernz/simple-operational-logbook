@@ -1,18 +1,22 @@
 <template>
-  <div id="admin">
-    <Header />
+  <div id="index">
+    <LogsHeader />
     <LogArea />
     <Footer />
   </div>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
+import Footer from "../Shared/Footer.vue";
+import LogsHeader from "./LogsHeader.vue";
+import LogArea from "./LogArea.vue";
 
 export default {
-  name: "Almin",
+  name: "LogsPage",
   components: {
-    Header,
+    Footer,
+    LogsHeader,
+    LogArea,
   },
   mounted: function() {
     this.$store.commit("defaultUserDetails");

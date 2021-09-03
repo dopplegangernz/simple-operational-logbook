@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import UserAdminRow from "./UserAdminRow.vue";
+import UserAdminRow from "../UserAdminRow.vue";
 export default {
   name: "adminPanel",
   components: { UserAdminRow },

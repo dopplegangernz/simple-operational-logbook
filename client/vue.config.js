@@ -7,9 +7,9 @@ module.exports = {
       addStyleResource(config.module.rule("less").oneOf(type))
     );
   },
+  runtimeCompiler: true,
   pages: {
-    index: "src/main.js",
-    admin: "src/admin.js",
+    index: "src/main.js"
   },
 };
 

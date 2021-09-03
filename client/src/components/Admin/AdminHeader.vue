@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import TabBar from "./Shared/TabBar.vue";
-import UIBar from "./Logs/LogsUIBar.vue";
+import TabBar from "../Shared/TabBar.vue";
+import UIBar from "../Logs/LogsUIBar.vue";
 
 export default {
   name: "Header",

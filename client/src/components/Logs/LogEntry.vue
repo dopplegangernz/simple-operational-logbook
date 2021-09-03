@@ -37,13 +37,16 @@
 </template>
 
 <script>
-import SearchIcon from "./SearchIcon.vue";
+import SearchIcon from "../SearchIcon.vue";
 import MarkdownItVueLight from "markdown-it-vue/dist/markdown-it-vue-light.umd.min.js";
 import "markdown-it-vue/dist/markdown-it-vue-light.css";
 
 export default {
   name: "LogEntry",
-  components: { SearchIcon, MarkdownItVueLight },
+  components: { 
+    SearchIcon, 
+    MarkdownItVueLight 
+  },
   computed: {
     ActiveGroup() {
       return this.$store.state.activeGroup;
