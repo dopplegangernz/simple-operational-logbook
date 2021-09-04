@@ -73,5 +73,14 @@ const Router = new VueRouter({
 new Vue({
   store: store,
   router: Router,
-
+  mounted: function() {
+    this.$store.dispatch("fetchGroups").catch(function(reason) {
+      alert(reason);
+    });
+    this.$store
+      .dispatch("fetchEntriesByDate", new Date())
+      .catch(function(reason) {
+        alert(reason);
+      });
+  },
 }).$mount("#app");

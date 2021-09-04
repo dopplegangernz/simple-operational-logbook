@@ -1,6 +1,17 @@
 <template>
   <div id="index">
-    <LogsHeader />
+    <Header 
+      pageName="Log Entries" 
+      :tabSet="tabSet"
+      :activeTab="activeTab" 
+      v-on:tabSelected="selectTab">
+      <template v-slot:right> 
+        <DatePicker/>
+      </template> 
+      <template v-slot:UIComponents> 
+        <TextSearch v-on:searchCleared = "searchInputCleared" v-on:searchSubmitted="searchByString"/>
+      </template>
+    </Header>
     <LogArea />
     <Footer />
   </div>
@@ -8,26 +19,47 @@
 
 <script>
 import Footer from "../Shared/Footer.vue";
-import LogsHeader from "./LogsHeader.vue";
+import Header from "../Shared/Header.vue";
 import LogArea from "./LogArea.vue";
+import DatePicker from "../Shared/DatePicker.vue";
+import TextSearch from "../Shared/TextSearch.vue"
 
 export default {
   name: "LogsPage",
   components: {
     Footer,
-    LogsHeader,
+    Header,
     LogArea,
+    DatePicker,
+    TextSearch
   },
-  mounted: function() {
-    this.$store.commit("defaultUserDetails");
-    this.$store.dispatch("fetchGroups").catch(function(reason) {
-      alert(reason);
-    });
-    this.$store
-      .dispatch("fetchEntriesByDate", new Date())
-      .catch(function(reason) {
-        alert(reason);
-      });
+  computed:{
+    tabSet() {
+      return this.$store.state.groups.map(group => group.name);
+    },
+    activeTab() {
+      return this.$store.state.activeGroup;
+    },
+  },
+  methods: {
+    selectTab(tabName){
+      this.$store
+        .commit("selectGroup", tabName);
+;    },
+    searchInputCleared() {
+      this.$store
+        .dispatch("fetchEntriesByDate", this.$store.state.selectedDate)
+        .catch(function(reason) {
+          alert(reason);
+        });
+    },
+    searchByString(searchString) {
+      this.$store
+        .dispatch("fetchEntriesBySearchString", searchString)
+        .catch(function(message) {
+          alert(message);
+        });
+    }
   },
 };
 </script>

@@ -1,17 +1,19 @@
 <template>
   <div id="index">
-    <H1>User</H1>
-    <router-link to="/logs">
-        Back to logs
-    </router-link>
+    <Header pageName="User Information"></Header>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Footer from "../Shared/Footer.vue";
+import Header from "../Shared/Header.vue";
 
 export default {
   name: "UserPage",
   components: {
+    Footer,
+    Header
   },
  
 };

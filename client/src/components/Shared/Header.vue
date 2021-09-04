@@ -1,73 +1,52 @@
 <template>
   <div class="header" id="sol-header">
-    <div class="logo">
-      <img alt="Logo" width="250" v-bind:src="Logo" />
-    </div>
+    <slot name="left"><Logo/></slot>
     <div class="restOfHeader">
-      <div class="table">
+       <div class="table">
         <div class="row">
           <div class="title">
             <h1>{{ Name }}</h1>
+            <h2>{{pageName}}</h2>
           </div>
         </div>
       </div>
-      <TabBar />
-      <UIBar />
+      <TabBar :tabSet="tabSet" :activeTab="activeTab" v-on:tabSelected="bubbleSelection"/>
+      <UIBar > <template v-slot:UIComponents><slot name="UIComponents" /> </template></UIBar>
     </div>
-    <div class="calendar">
-      <v-date-picker
-        v-model="selectedDate"
-        :max-date="new Date()"
-        :attributes="calendarAttributes"
-        :is-required="true"
-        is-inline
-      ></v-date-picker>
-    </div>
+    <slot name="right"><Logo/></slot>
   </div>
 </template>
 
 <script>
 import TabBar from "./TabBar.vue";
-import UIBar from "../Logs/LogsUIBar.vue";
+import UIBar from "./UIBar.vue";
+import Logo from "./Logo.vue";
 
 export default {
   name: "Header",
+  props: {
+    pageName:{
+      type: String,
+      default: ""
+    },
+    tabSet: Array,
+    activeTab: String
+  },
+  methods: {
+    bubbleSelection(tabName){
+      this.$emit("tabSelected", tabName)
+    }
+  },
   components: {
     TabBar,
-    UIBar
-  },
-  data() {
-    return {
-      calendarAttributes: [
-        {
-          key: "today",
-          highlight: "red",
-          dates: new Date()
-        }
-      ]
-    };
+    UIBar,
+    Logo
   },
   computed: {
-    selectedDate: {
-      get() {
-        return this.$store.state.selectedDate;
-      },
-      set(value) {
-        this.$store.commit("setSelectedDate", value);
-        this.$store
-          .dispatch("fetchEntriesByDate", value)
-          .catch(function(reason) {
-            alert(reason);
-          });
-      }
-    },
     Name() {
       return this.$store.state.appName;
     },
-    Logo() {
-      return this.$store.state.logo;
-    }
-  }
+}
 };
 </script>
 

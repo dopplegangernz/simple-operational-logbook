@@ -64,9 +64,7 @@ export default {
     Name() {
       return this.$store.state.appName;
     },
-    Logo() {
-      return this.$store.state.logo;
-    }
+
   }
 };
 </script>

@@ -2,34 +2,37 @@
   <div class="tabBar">
     <span
       class="tab"
-      v-for="group in Groups"
-      :key="group.id"
+      v-for="tabName in tabSet"
+      :key="tabName"
       v-bind:class="{
-        active: group.name === ActiveGroup,
+        active: tabName === selectedTab,
       }"
-      v-on:click="selectGroup(group.name)"
-    >{{ group.name }}</span>
+      v-on:click="selectTab(tabName)"
+    >{{ tabName }}</span>
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
 export default {
   name: "TabBar",
-  computed: {
-    ActiveGroup() {
-      return this.$store.state.activeGroup;
-    },
-    Groups() {
-      return this.$store.state.groups;
+  props:{
+    "tabSet":Array,
+    "activeTab": String
+  },
+  emits: ['tabSelected'],
+  data: function(){
+    return {
+      "selectedTab": this.activeTab
     }
   },
   methods: {
-    ...mapMutations(["selectGroup"])
-  }
+    selectTab(tabName){
+      this.selectedTab = tabName;
+      this.$emit("tabSelected", tabName)
+    }
+  },
 };
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 </style>

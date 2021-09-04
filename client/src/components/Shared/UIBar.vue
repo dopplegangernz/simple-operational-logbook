@@ -1,29 +1,14 @@
 <template>
   <div class="uiBar">
-    <div class="search">
-      <label for="searchInput">Search:</label>
-      <span class="pseudoInput">
-        <input v-model="SearchInputValue" class="hasX" id="searchInput" type="text" />
-        <svg
-          v-on:click="clearSearchInput"
-          width="15px"
-          height="15px"
-          viewBox="-5 -5 30 30"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          xml:space="preserve"
-          xmlns:serif="http://www.serif.com/"
-        >
-          <path d="M1,1L19,19" />
-          <path d="M1,19L19,1" />
-        </svg>
-      </span>
-      <span class="sol-button" v-on:click="searchByString(SearchInputValue)">Go</span>
-    </div>
+    <slot name="UIComponents" />
     <span class="buttons">
-      <span class="sol-button" v-if="isAdmin">
-        <router-link to="/admin">
+      <span class="sol-button" v-if="this.$route.name !== 'Logs'">
+        <router-link to="/logs" >
+          Logs Panel
+        </router-link>
+      </span>
+      <span class="sol-button" v-if="isAdmin && this.$route.name !== 'Admin'">
+        <router-link to="/admin"> 
           Admin Panel
         </router-link>
       </span >
@@ -41,14 +26,9 @@
 import LoginDialog from "../Shared/LoginDialog.vue";
 
 export default {
-  name: "LogsUIBar",
+  name: "UIBar",
   components: {
     LoginDialog
-  },
-  data: function() {
-    return {
-      SearchInputValue: null
-    };
   },
   computed: {
     isAdmin() {
@@ -62,21 +42,6 @@ export default {
     }
   },
   methods: {
-    clearSearchInput() {
-      this.SearchInputValue = null;
-      this.$store
-        .dispatch("fetchEntriesByDate", this.$store.state.selectedDate)
-        .catch(function(reason) {
-          alert(reason);
-        });
-    },
-    searchByString(searchString) {
-      this.$store
-        .dispatch("fetchEntriesBySearchString", searchString)
-        .catch(function(message) {
-          alert(message);
-        });
-    }
   }
 };
 </script>

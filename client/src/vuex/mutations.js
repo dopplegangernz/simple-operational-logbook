@@ -22,7 +22,7 @@ module.exports = {
   defaultUserDetails(state) {
     state.user.username = null;
     state.user.email = null;
-    state.user.group = "All";
+    state.user.actuveGroup = "All";
     state.user.id = null;
     state.user.authKey = null;
     state.user.isAdmin = false;
@@ -31,7 +31,7 @@ module.exports = {
     groups.unshift({
       name: "All",
       description: "All groups",
-      is: 1,
+      id: 1,
     });
     state.groups = groups;
   },
