@@ -1,5 +1,5 @@
 <template>
-  <div id="sol-logArea">
+  <div id="sol-contentArea">
     <div class="buttonBar">
       <NewLogEntryDialog v-if="isLoggedIn" />
     </div>
@@ -18,7 +18,7 @@ export default {
     NewLogEntryDialog
   },
   computed: {
-    logAreaHeight() {
+    contentAreaHeight() {
       const header = document.getElementById("sol-header");
       const footer = document.getElementById("sol-footer");
 
@@ -52,23 +52,6 @@ export default {
       }
     }
   },
-  mounted: function() {
-    window.onresize = setLogAreaHeight;
-    setLogAreaHeight();
-  }
-};
-
-function setLogAreaHeight() {
-  const logArea = document.getElementById("sol-logArea");
-  const header = document.getElementById("sol-header");
-  const footer = document.getElementById("sol-footer");
-  const viewHeight = document.documentElement.clientHeight;
-
-  const headerHeight = header.offsetHeight;
-  const footerHeight = footer.offsetHeight;
-
-  const logAreaHeight = viewHeight - headerHeight - 2 * footerHeight;
-  logArea.style.height = logAreaHeight + "px";
 }
 </script>
 
@@ -77,7 +60,7 @@ function setLogAreaHeight() {
 div.buttonBar {
   text-align: center;
 }
-#sol-logArea {
+#sol-contentArea {
   overflow: scroll;
 }
 </style>

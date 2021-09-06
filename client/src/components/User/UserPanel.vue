@@ -1,72 +1,60 @@
 <template>
-  <span class="sol-userPanel linkText" v-on:click="showUserPanel">
-    {{ Name }}
-    <modal
-      name="userPanel"
-      draggable=".dragHandle"
-      :focusTrap="true"
-      :clickToClose="false"
-      classes="modalBox"
-      width="330px"
-      height="220px"
-    >
-      <div class="title dragHandle">
-        <span>User information for {{ Name }}</span>
-        <span class="sol-button" v-on:click="hideUserPanel()">x</span>
-      </div>
-      <div class="content">
-        <table>
-          <tr>
-            <th>Email:</th>
-            <td>
-              <input v-if="editMode" type="text" v-model="email" />
-              <span v-else>{{ email }}</span>
-            </td>
-          </tr>
-          <tr>
-            <th>Username:</th>
-            <td>
-              <input v-if="editMode" type="text" v-model="username" />
-              <span v-else>{{ username }}</span>
-            </td>
-          </tr>
-          <tr>
-            <th>Group:</th>
-            <td>
-              <select v-if="editMode" v-model="selectedGroup">
-                <option v-for="group in Groups" :key="group.name">
-                  {{ group.name }}
-                </option>
-              </select>
-              <span v-else>{{ selectedGroup }}</span>
-            </td>
-          </tr>
-          <tr v-if="editMode">
-            <th>Password:</th>
-            <td>
-              <input type="password" v-model="password1" />
-            </td>
-          </tr>
-          <tr v-if="editMode">
-            <th>Confirm password:</th>
-            <td>
-              <input type="password" v-model="password2" />
-            </td>
-          </tr>
-          <tr></tr>
-        </table>
-      </div>
-      <div class="alertMessage" v-if="alertMessage">{{ alertMessage }}</div>
-      <div class="buttons">
-        <span class="sol-button" v-on:click="clearUserPanel()">Close</span>
+  <div id="sol-contentArea">
+    <h1>User information for {{ Name }}</h1>
+    <table>
+      <tr>
+        <th>Email:</th>
+        <td>
+          <input v-if="editMode" type="text" v-model="email" />
+          <span v-else>{{ email }}</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Username:</th>
+        <td>
+          <input v-if="editMode" type="text" v-model="username" />
+          <span v-else>{{ username }}</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Group:</th>
+        <td>
+          <select v-if="editMode" v-model="selectedGroup">
+            <option v-for="group in Groups" :key="group.name">
+              {{ group.name }}
+            </option>
+          </select>
+          <span v-else>{{ selectedGroup }}</span>
+        </td>
+      </tr>
+      <tr v-if="editMode">
+        <th>Password:</th>
+        <td>
+          <input type="password" v-model="password1" />
+        </td>
+      </tr>
+      <tr v-if="editMode">
+        <th>Confirm password:</th>
+        <td>
+          <input type="password" v-model="password2" />
+        </td>
+      </tr>
+      <tr></tr>
+    </table>
 
-        <span class="sol-button" v-if="editMode" v-on:click="updateUser"
-          >Save</span
-        >
-        <span class="sol-button" v-else v-on:click="editUser">Edit</span>
-      </div>
-    </modal>
-  </span>
+    <div class="alertMessage" v-if="alertMessage">{{ alertMessage }}</div>
+    <div class="buttons">
+      <span class="sol-button" v-if="editMode" v-on:click="updateUser">
+        Save
+      </span>
+      <span class="sol-button" v-if="editMode" v-on:click="cancelEditUser">
+        Cancel
+      </span>
+      <span class="sol-button" v-else v-on:click="editUser">
+        Edit
+      </span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -98,11 +86,9 @@ export default {
     editUser() {
       this.editMode = true;
     },
-    showUserPanel() {
-      this.$modal.show("userPanel");
-    },
-    hideUserPanel() {
-      this.$modal.hide("userPanel");
+    cancelEditUser(){
+      this.editMode = false;
+      this.clearUserPanel();
     },
     clearUserPanel() {
       // Reset the panel to default
@@ -110,8 +96,6 @@ export default {
       this.username = this.$store.state.user.username;
       this.password = null;
       this.email = this.$store.state.user.email;
-
-      this.$modal.hide("userPanel");
     },
     updateUser() {
       const revisedUser = {
@@ -155,9 +139,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.modalBox {
-  border: @mediumBorder;
-}
 
 span.sol-userPanel div {
   color: @textColour;

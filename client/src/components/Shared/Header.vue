@@ -46,8 +46,27 @@ export default {
     Name() {
       return this.$store.state.appName;
     },
+  },
+  mounted: function() {
+    window.onresize = setContentAreaHeight;
+    setContentAreaHeight();
+  },
+  updated: setContentAreaHeight
 }
-};
+
+function setContentAreaHeight() {
+  const contentArea = document.getElementById("sol-contentArea");
+  const header = document.getElementById("sol-header");
+  const footer = document.getElementById("sol-footer");
+  const viewHeight = document.documentElement.clientHeight;
+
+  const headerHeight = header.offsetHeight;
+  const footerHeight = footer.offsetHeight;
+
+  const contentAreaHeight = viewHeight - headerHeight - 3 * footerHeight;
+  contentArea.style.height = contentAreaHeight + "px";
+}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
