@@ -11,12 +11,12 @@ clean:
 install:
 	python3 -m venv venv; \
 	. venv/bin/activate; \
-	pip3 install -r requirements.txt; \
 
 	ifeq ($(UNAME_S), Linux)
 		pip3 install cffi
 	endif
 	
+	pip3 install -r requirements.txt; \
 	. cd client; \
 	npm install; \
 	npm run build;
