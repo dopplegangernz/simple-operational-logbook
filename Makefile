@@ -14,10 +14,11 @@ install:
 
 ifeq ($(UNAME_S), Linux)
 	pip3 install cffi
+	pip3 install psycopg2-binary==2.8.6
 endif
 	
 	pip3 install -r requirements.txt; \
-	. cd client; \
+	cd client; \
 	npm install; \
 	npm run build;
 
