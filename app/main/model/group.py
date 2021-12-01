@@ -13,7 +13,6 @@ class Group(db.Model):
     public_id = db.Column(db.String(100), unique=True)
     name = db.Column(db.String(50), unique=True)
     description = db.Column(db.String(255))
-    members = db.relationship("User")
 
     def __repr__(self):
         return "<Group '{}'>".format(self.name)

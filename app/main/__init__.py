@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column
 from sqlalchemy.exc import OperationalError
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import os
+from flask_migrate import Migrate
 
 
 from .config import config_by_name
@@ -43,14 +45,16 @@ def ensureDBHasUsers(app, db):
     import datetime
     import uuid
 
+    app.logger.info("Checking users present")
+
     with app.app_context():
-        userCount = db.session.query(User).add_column('username').count()
+        userCount = db.session.query(User).add_columns(User.username).count()
 
     if userCount < 1:
         # add default admin user
 
         with app.app_context():
-            groupId = db.session.query(Group).add_column('id').first().id
+            groupId = db.session.query(Group).add_columns(Group.id).first().id
 
         default_admin_user = User(
             public_id=str(uuid.uuid4()),
@@ -61,6 +65,7 @@ def ensureDBHasUsers(app, db):
             group_id=groupId,
             registered_on=datetime.datetime.utcnow()
         )
+        app.logger.info("Adding default user")
         with app.app_context():
             db.session.add(default_admin_user)
             db.session.commit()
@@ -76,8 +81,10 @@ def ensureDBHasGroups(app, db):
     from .model.group import Group
     import uuid
 
+    app.logger.info("Checking groups present")
+
     with app.app_context():
-        groupCount = db.session.query(Group).add_column('name').count()
+        groupCount = db.session.query(Group).add_columns(Group.name).count()
 
     if groupCount < 1:
         # add default admin user
@@ -86,6 +93,7 @@ def ensureDBHasGroups(app, db):
             name='default group',
             description='A default group'
         )
+        app.logger.info("Adding default group")
         with app.app_context():
             db.session.add(new_group)
             db.session.commit()
