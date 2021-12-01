@@ -49,6 +49,7 @@ def ensureDBHasUsers(app, db):
 
     with app.app_context():
         userCount = db.session.query(User).add_columns(User.username).count()
+        app.logger.info(f'{userCount} users in the DB')
 
     if userCount < 1:
         # add default admin user
@@ -85,6 +86,7 @@ def ensureDBHasGroups(app, db):
 
     with app.app_context():
         groupCount = db.session.query(Group).add_columns(Group.name).count()
+    app.logger.info(f'{groupCount} groups in the DB')
 
     if groupCount < 1:
         # add default admin user

@@ -18,11 +18,11 @@ Note: make sure you have `pip`, `virtualenv`, and `npm` installed.
 
 Make sure to run the initial migration commands to update the database.
 
-    > python3 manage.py db init
+    > flask db init
 
-    > python3 manage.py db migrate --message 'initial database migration'
+    > flask db migrate --message 'initial database migration'
 
-    > python3 manage.py db upgrade
+    > flask db upgrade
 
 or run:
 
@@ -50,3 +50,5 @@ Bear in mind that this will drop any existing database, so use with extreme caut
 https://medium.freecodecamp.org/structuring-a-flask-restplus-web-service-for-production-builds-c2ec676de563
 
 ### Contributing
+
+docker run -p 5000:5000 -w /app -v "$(pwd):/app" python:3 sh -c "make installdev && make run"

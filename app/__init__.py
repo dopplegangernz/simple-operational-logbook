@@ -1,5 +1,7 @@
 from flask_restx import Api
 from flask import Blueprint
+import os
+import sys
 
 
 from .main.controller.user_controller import api as user_ns
@@ -7,6 +9,7 @@ from .main.controller.group_controller import api as group_ns
 from .main.controller.auth_controller import api as auth_ns
 from .main.controller.logEntry_controller import api as logEntry_ns
 from .main.controller.logEntries_controller import api as logEntries_ns
+from .main import create_app
 
 blueprint = Blueprint('api', __name__)
 

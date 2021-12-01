@@ -1,31 +1,31 @@
 import os
 import unittest
 
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
-
+from flask_migrate import Migrate
 from app import blueprint
 from app.main import create_app, db
 from app.main.model import user, blacklist
+
+from flask.cli import FlaskGroup
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
 
 app.app_context().push()
 
-manager = Manager(app)
+migrate = Migrate()
+migrate.init_app(app, db)
 
-migrate = Migrate(app, db)
-
-manager.add_command('db', MigrateCommand)
+cli = FlaskGroup(app)
 
 
-@manager.command
+@cli.command('run')
 def run():
+    app.logger("hello")
     app.run()
 
 
-@manager.command
+@cli.command('test')
 def test():
     """Runs the unit tests."""
     tests = unittest.TestLoader().discover('app/test', pattern='test*.py')
@@ -34,5 +34,6 @@ def test():
         return 0
     return 1
 
+
 if __name__ == '__main__':
-    manager.run()
+    cli()
