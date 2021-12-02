@@ -33,7 +33,7 @@ installServerDev: installServer initdb
 
 tests:
 	. venv/bin/activate; \
-	python3 manage.py test
+	flask test
 
 run:
 	. venv/bin/activate; \

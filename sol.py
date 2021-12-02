@@ -21,8 +21,9 @@ cli = FlaskGroup(app)
 
 @cli.command('run')
 def run():
-    app.logger("hello")
+    app.logger.info("Running sol.py")
     app.run()
+    app.logger.info("Running sol.py")
 
 
 @cli.command('test')

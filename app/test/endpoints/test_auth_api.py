@@ -4,7 +4,7 @@ from app.main import db
 from app.main.model.blacklist import BlacklistToken
 import json
 from app.test.base import BaseTestCase
-from app.test.helpers import create_admin_user, get_admin_authKey, get_nonadmin_authKey
+from app.test.helpers import create_admin_user, get_admin_authKey, get_nonadmin_authKey, admin_email, admin_password
 
 
 class TestAuthLogin(BaseTestCase):
@@ -18,14 +18,14 @@ class TestAuthLogin(BaseTestCase):
             response = self.client.post(
                 '/api/auth/login',
                 data=json.dumps(dict(
-                    email='admin@example.com',
-                    password='admin'
+                    email=admin_email,
+                    password=admin_password
                 )),
                 content_type='application/json'
             )
             data = json.loads(response.data.decode())
             self.assertTrue(data['status'] == 'success',
-                            msg="Login response is : %s" % response)
+                            msg="Login response is : %s" % data)
             self.assertTrue(data['message'] == 'Successfully logged in.')
             self.assertTrue(data['Authorization'])
             self.assertTrue(response.content_type == 'application/json')
@@ -57,7 +57,7 @@ class TestAuthLogin(BaseTestCase):
             response = self.client.post(
                 '/api/auth/login',
                 data=json.dumps(dict(
-                    email='admin@example.com',
+                    email=admin_email,
                     password='badpassword'
                 )),
                 content_type='application/json'
@@ -80,18 +80,21 @@ class TestAuthLogout(BaseTestCase):
             loginResponse = self.client.post(
                 '/api/auth/login',
                 data=json.dumps(dict(
-                    email='admin@example.com',
-                    password='admin'
+                    email=admin_email,
+                    password=admin_password
                 )),
                 content_type='application/json'
             )
+            responseData = json.loads(loginResponse.data.decode())
+
+            if 'Authorization' not in responseData:
+                raise Exception(
+                    f'responseData missing Authorization: {responseData}')
             # valid token logout
             response = self.client.post(
                 '/api/auth/logout',
                 headers=dict(
-                    Authorization=json.loads(
-                        loginResponse.data.decode()
-                    )['Authorization']
+                    Authorization=responseData['Authorization']
                 )
             )
             data = json.loads(response.data.decode())

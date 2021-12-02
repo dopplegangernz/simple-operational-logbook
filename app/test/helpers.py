@@ -5,10 +5,20 @@ from app.main.model.group import Group
 from app.main.service.group_service import get_a_group_by_id
 import datetime
 
+admin_username = "admin"
+admin_email = "admin@admin.com"
+admin_group = "adminGroup"
+admin_password = "admin"
+
+nonadmin_username = "steve"
+nonadmin_email = "steve@steve.com"
+nonadmin_group = "plebs"
+nonadmin_password = "password"
+
 
 def create_group(self):
     group = Group(
-        name='adminGroup',
+        name=admin_group,
         description='A group for bootstrapping testing',
         public_id='123456'
     )
@@ -23,9 +33,9 @@ def create_admin_user(self, group=False):
         group = create_group(self)
 
     user = User(
-        username='admin',
-        email='admin@example.com',
-        password='admin',
+        username=admin_username,
+        email=admin_email,
+        password=admin_password,
         group_id=group.id,
         admin=True,
         public_id='1',
@@ -48,9 +58,9 @@ def create_nonadmin_user(self, groupId=False):
         groupId = group.id
 
     user = User(
-        username='steve',
-        email='steve@steve.com',
-        password='steve',
+        username=nonadmin_username,
+        email=nonadmin_email,
+        password=nonadmin_password,
         group_id=groupId,
         public_id='12342134',
         admin=False,
@@ -71,8 +81,8 @@ def get_nonadmin_authKey(self):
     loginResponse = self.client.post(
         '/api/auth/login',
         data=json.dumps(dict(
-            email='steve@steve.com',
-            password='steve'
+            email=nonadmin_email,
+            password=nonadmin_password
         )),
         content_type='application/json'
     )
@@ -80,17 +90,22 @@ def get_nonadmin_authKey(self):
 
 
 def get_admin_authKey(self):
-    create_admin_user(self)
+    user = create_admin_user(self)
     # registered user login
     loginResponse = self.client.post(
         '/api/auth/login',
         data=json.dumps(dict(
-            email='admin@example.com',
-            password='admin'
+            email=admin_email,
+            password=admin_password
         )),
         content_type='application/json'
     )
-    return json.loads(loginResponse.data.decode())['Authorization']
+    response = json.loads(loginResponse.data.decode())
+
+    if 'Authorization' not in response:
+        raise KeyError(f'reponse lacking Authorisaton key - {response}')
+    else:
+        return response['Authorization']
 
 
 def create_log_entry(self, authKey, subject, text):

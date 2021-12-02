@@ -19,7 +19,7 @@ class Auth:
                         'group': user.group.name,
                         'status': 'success',
                         'message': 'Successfully logged in.',
-                        'Authorization': auth_token.decode()
+                        'Authorization': auth_token
                     }
                     return response_object, 200
             else:
@@ -30,10 +30,10 @@ class Auth:
                 return response_object, 401
 
         except Exception as e:
-            print(e)
             response_object = {
                 'status': 'fail',
-                'message': 'Try again'
+                'message': 'Error fetching login credentials',
+                'error': repr(e)
             }
             return response_object, 500
 
