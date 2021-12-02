@@ -1,0 +1,3 @@
+FLASK_APP=sol.py
+FLASK_ENV=dev
+FLASK_DEBUG=1
