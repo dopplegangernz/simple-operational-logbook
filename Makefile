@@ -2,6 +2,8 @@
 
 .PHONY: clean install tests run all
 
+UNAME_S := $(shell uname -s)
+
 clean:
 	find . -type f -name '*.pyc' -delete
 	find . -type f -name '*.log' -delete
@@ -14,6 +16,7 @@ installServer:
 
 installClient:
 	. cd client; \
+
 	npm install; \
 	npm run build;
 
