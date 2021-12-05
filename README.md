@@ -51,4 +51,4 @@ https://medium.freecodecamp.org/structuring-a-flask-restplus-web-service-for-pro
 
 ### Contributing
 
-docker run -p 5000:5000 -w /app -v "$(pwd):/app" python:3 sh -c "make installdev && make run"
+docker run -p 5000:5000 -w /app -v "$(pwd):/app" python:3 sh -c "make installServerDev && make run"

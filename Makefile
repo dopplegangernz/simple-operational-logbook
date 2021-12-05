@@ -24,11 +24,6 @@ initdb:
 	flask db migrate --message 'initial database migration'; \
 	flask db upgrade;
 
-installServerDev:
-	python3 -m venv venv; \
-	. venv/bin/activate; \
-	pip3 install -r requirements.txt;
-
 installServerDev: installServer initdb
 
 tests:
@@ -37,7 +32,7 @@ tests:
 
 run:
 	. venv/bin/activate; \
-	flask run
+	FLASK_APP=sol flask run -h 0.0.0.0 -p 5000;
 
 all: clean install tests run
 

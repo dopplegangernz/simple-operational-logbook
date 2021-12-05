@@ -19,11 +19,12 @@ migrate.init_app(app, db)
 cli = FlaskGroup(app)
 
 
-@cli.command('run')
-def run():
-    app.logger.info("Running sol.py")
-    app.run()
-    app.logger.info("Running sol.py")
+# @cli.command('run')
+# def run():
+#     app.logger.info("Running sol.py")
+#     os._exit(1)
+#     app.run(host='0.0.0.0')
+#     app.logger.info("Running sol.py")
 
 
 @cli.command('test')
