@@ -4,7 +4,7 @@ from app.main import db
 from app.main.model.blacklist import BlacklistToken
 import json
 from app.test.base import BaseTestCase
-from app.test.helpers import create_group, create_admin_user, create_nonadmin_user
+from app.test.helpers import create_group, create_admin_user, create_nonadmin_user, admin_email, admin_password, admin_username, admin_group
 
 
 class TestUserCreate(BaseTestCase):
@@ -70,10 +70,10 @@ class TestUserCreate(BaseTestCase):
             response = self.client.post(
                 '/api/user/',
                 data=json.dumps(dict(
-                    email='admin@example.com',
-                    username='admin',
-                    group='adminGroup',
-                    password='admin'
+                    email=admin_email,
+                    username=admin_username,
+                    group=admin_group,
+                    password=admin_password
                 )),
                 headers=dict(
                     Authorization=bootstrap['authKey']
@@ -124,10 +124,10 @@ class TestUserRead(BaseTestCase):
             self.assertIn('username', data, msg="data is : {}".format(data))
             self.assertIsNone(data['password'],
                               msg="We'd better not be leaking passwords")
-            self.assertEqual(data['email'], 'admin@example.com')
-            self.assertEqual(data['username'], 'admin',
+            self.assertEqual(data['email'], admin_email)
+            self.assertEqual(data['username'], admin_username,
                              msg="data is : {}".format(data))
-            self.assertEqual(data['group'], 'adminGroup')
+            self.assertEqual(data['group'], admin_group)
             self.assertEqual(data['isAdmin'], 'True')
             self.assertTrue(response.content_type == 'application/json')
             self.assertEqual(response.status_code, 200)
@@ -180,10 +180,10 @@ class TestUserUpdate(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertIn('username', data, msg="data is : {}".format(data))
-            self.assertEqual(data['email'], 'admin@example.com')
-            self.assertEqual(data['username'], 'admin',
+            self.assertEqual(data['email'], admin_email)
+            self.assertEqual(data['username'], admin_username,
                              msg="data is : {}".format(data))
-            self.assertEqual(data['group'], 'adminGroup')
+            self.assertEqual(data['group'], admin_group)
             self.assertEqual(data['isAdmin'], 'True')
             self.assertTrue(response.content_type == 'application/json')
 
@@ -196,7 +196,7 @@ class TestUserUpdate(BaseTestCase):
                     'id': admin['user'].id,
                     'username': "bob",
                     'email': "bob@bob.com",
-                    'group': 'adminGroup',
+                    'group': admin_group,
                     'isAdmin': 'True',
                     'password': "newpassword"
                 }),
@@ -209,7 +209,7 @@ class TestUserUpdate(BaseTestCase):
             self.assertEqual(data['email'], 'bob@bob.com')
             self.assertEqual(data['username'], 'bob',
                              msg="data is : {}".format(data))
-            self.assertEqual(data['group'], 'adminGroup')
+            self.assertEqual(data['group'], admin_group)
             self.assertEqual(data['isAdmin'], 'True')
             self.assertIsNone(data['password'])
             self.assertTrue(response.content_type == 'application/json')
@@ -325,10 +325,10 @@ class TestUserUpdate(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertIn('username', data, msg="data is : {}".format(data))
-            self.assertEqual(data['email'], 'admin@example.com')
-            self.assertEqual(data['username'], 'admin',
+            self.assertEqual(data['email'], admin_email)
+            self.assertEqual(data['username'], admin_username,
                              msg="data is : {}".format(data))
-            self.assertEqual(data['group'], 'adminGroup')
+            self.assertEqual(data['group'], admin_group)
             self.assertEqual(data['isAdmin'], 'True')
             self.assertTrue(response.content_type == 'application/json')
 
@@ -341,7 +341,7 @@ class TestUserUpdate(BaseTestCase):
                     'id': admin['user'].public_id,
                     'username': "bob",
                     'email': "bob@bob.com",
-                    'group': 'adminGroup',
+                    'group': admin_group,
                     'isAdmin': 'False',
                     'password': "newpassword"
                 }),
@@ -369,10 +369,10 @@ class TestUserUpdate(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertIn('username', data, msg="data is : {}".format(data))
-            self.assertEqual(data['email'], 'admin@example.com')
-            self.assertEqual(data['username'], 'admin',
+            self.assertEqual(data['email'], admin_email)
+            self.assertEqual(data['username'], admin_username,
                              msg="data is : {}".format(data))
-            self.assertEqual(data['group'], 'adminGroup')
+            self.assertEqual(data['group'], admin_group)
             self.assertEqual(data['isAdmin'], 'True')
             self.assertTrue(response.content_type == 'application/json')
 
@@ -382,7 +382,7 @@ class TestUserUpdate(BaseTestCase):
                     'id': admin['user'].public_id,
                     'username': "bob",
                     'email': "bob@bob.com",
-                    'group': 'adminGroup',
+                    'group': admin_group,
                     'isAdmin': 'False',
                     'password': "newpassword"
                 }),

@@ -68,6 +68,21 @@ class TestUserModel(BaseTestCase):
         self.assertTrue(isinstance(auth_token, str))
         self.assertEqual(User.decode_auth_token(auth_token), user.id)
 
+    def test_retrieve_user_from_db(self):
+        test_email = 'test@test.com'
+        user = User(
+            email=test_email,
+            password='test',
+            group_id='testGroup',
+            registered_on=datetime.datetime.utcnow()
+        )
+        db.session.add(user)
+        db.session.commit()
+
+        retrieved = User.query.filter_by(email=test_email).first()
+
+        self.assertEqual(user, retrieved)
+
 
 if __name__ == '__main__':
     unittest.main()
