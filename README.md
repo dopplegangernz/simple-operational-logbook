@@ -26,9 +26,20 @@ Make sure to run the initial migration commands to update the database.
 
 or run:
 
-    make db-init
+    make initdb
 
 Bear in mind that this will drop any existing database, so use with extreme caution.
+
+### Setting things up with docker for development
+
+The best way of running things is using docker:
+
+To run the back end, from the main directory, run:
+```docker run -p 5000:5000 -w /app -v "$(pwd):/app" python:3 sh -c "make installServerDev && make run"```
+
+To run a hot-reloading dev server fro teh front end, cd to the client dir, and run:
+```docker run -p 8080:8080 -w /app -v "$(pwd):/app" node:lts-alpine sh -c "npm install && npm run serve"```
+
 
 ### Viewing the app
 
